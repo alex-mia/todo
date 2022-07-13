@@ -95,7 +95,10 @@ class Authorization extends StatelessWidget {
                     controller: _scrollController,
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Home()));},
                         child: Container(
                           decoration: BoxDecoration(
                             color: ColorSets.gray,
@@ -150,7 +153,10 @@ class Authorization extends StatelessWidget {
                         height: 12,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Home()));},
                         child: Container(
                           decoration: BoxDecoration(
                             color: ColorSets.gray,
