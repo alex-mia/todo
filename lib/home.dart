@@ -16,21 +16,136 @@ class Home extends StatelessWidget {
           ),
         ],
       ),
-      drawer: Container(
-        color: ColorSets.yellow,
-        margin: EdgeInsets.only(right: 72),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SizedBox(height: 237),
-            Center(
-              child: Text('Alex \nMitchell', style: TextStyle(
-                color: ColorSets.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-              ),),
-            )
-          ],
+      drawer:
+      Center(
+        child: Container(
+          color: ColorSets.yellow,
+          margin: EdgeInsets.only(right: 75),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 40),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+             crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 80,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: ColorSets.gray,
+                    shape: BoxShape.circle,
+                  ),
+                  margin: EdgeInsets.only(top: 145),
+                  child: Center(
+                    child: Text('A',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                      color: ColorSets.white,
+                    ),),
+                  ),
+                ),
+                SizedBox(height: 12),
+                Text('Alex \nMitchell', style: TextStyle(
+                  color: ColorSets.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                GestureDetector(
+                  onTap: (){
+                    print("Prodectivity");
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children:  [
+                      Image.asset('images/productivity.png'),
+                      Text(
+                        "    Productivity",
+                        style: TextStyle(
+                          color: ColorSets.black,
+                          fontWeight: FontWeight.bold
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                GestureDetector(
+                  onTap: (){
+                    print("Projects");
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Image.asset('images/projects.png'),
+                      Text(
+                        "    Projects",
+                        style: TextStyle(
+                            color: ColorSets.black,
+                            fontWeight: FontWeight.bold
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                GestureDetector(
+                  onTap: (){
+                    print("Settings");
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Image.asset('images/settings.png'),
+                      Text(
+                        "    Settings",
+                        style: TextStyle(
+                            color: ColorSets.black,
+                            fontWeight: FontWeight.bold
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 63),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            print("Sing Out");
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Image.asset('images/sign_out.png'),
+                              Text(
+                                "    Sign Out",
+                                style: TextStyle(
+                                    color: ColorSets.black,
+                                    fontWeight: FontWeight.bold
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
       body: Container(
@@ -66,6 +181,9 @@ class Home extends StatelessWidget {
                 child: ListView(
                   children: <Widget>[
                     ListTile(
+                      onTap: (){
+                        print('Print');
+                      },
                       leading: Image.asset('images/inbox.png'),
                       title: Text(
                         'Inbox',
@@ -81,6 +199,9 @@ class Home extends StatelessWidget {
                       child: Divider(color: ColorSets.white),
                     ),
                     ListTile(
+                      onTap: (){
+                        print('Print');
+                      },
                       leading: Image.asset('images/today.png'),
                       title: Text(
                         'Today',
@@ -96,6 +217,9 @@ class Home extends StatelessWidget {
                       child: Divider(color: ColorSets.white),
                     ),
                     ListTile(
+                      onTap: (){
+                        print('Print');
+                      },
                       leading: Image.asset('images/upcoming.png'),
                       title: Text(
                         'Upcoming',
@@ -136,6 +260,9 @@ class Home extends StatelessWidget {
                 child: ListView(
                   children: <Widget>[
                     ListTile(
+                      onTap: (){
+                        print('Print');
+                      },
                       leading: Image.asset('images/rectangle_yellow.png'),
                       title: Text(
                         'Personal',
@@ -151,6 +278,9 @@ class Home extends StatelessWidget {
                       child: Divider(color: ColorSets.white),
                     ),
                     ListTile(
+                      onTap: (){
+                        print('Print');
+                      },
                       leading: Image.asset('images/rectangle_orange.png'),
                       title: Text(
                         'Work',
@@ -166,6 +296,9 @@ class Home extends StatelessWidget {
                       child: Divider(color: ColorSets.white),
                     ),
                     ListTile(
+                      onTap: (){
+                        print('Print');
+                      },
                       leading: Image.asset('images/rectangle_purple.png'),
                       title: Text(
                         'Design',
@@ -181,6 +314,9 @@ class Home extends StatelessWidget {
                       child: Divider(color: ColorSets.white),
                     ),
                     ListTile(
+                      onTap: (){
+                        print('Print');
+                      },
                       leading: Image.asset('images/rectangle_green.png'),
                       title: Text(
                         'Study',
