@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:todo/colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo/providers/email_provider.dart';
+import 'package:todo/providers/password_provider.dart';
 
-class SignIn extends StatelessWidget {
+
+
+class SignIn extends ConsumerWidget {
   const SignIn({Key? key}) : super(key: key);
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    void validatePassword(WidgetRef ref, password){
+      ref.read(PasswordRiverpodProvider.notifier).validatePassword(password);
+    };
+    void validateEmail(WidgetRef ref, email){
+      ref.read(EmailRiverpodProvider.notifier).validateEmail(email);
+    };
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -50,8 +60,16 @@ class SignIn extends StatelessWidget {
                     contentPadding: EdgeInsets.only(left: 16, right: 16, bottom: 10),
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
+                    border: InputBorder.none,
+                    errorText: '${ref.watch(EmailRiverpodProvider)}',
+                  errorStyle: TextStyle(
+                    color: '${ref.watch(EmailRiverpodProvider)}' != 'OK' ? Colors.red : Colors.green,
+                  ),
                   ),
                   keyboardType: TextInputType.emailAddress,
+                  onSubmitted: (email) {
+                    validateEmail(ref, email);
+                  },
                   style: TextStyle(fontSize: 16, color: ColorSets.white),
                   cursorColor: Colors.white,
                 ),
@@ -78,8 +96,16 @@ class SignIn extends StatelessWidget {
                     contentPadding: EdgeInsets.only(left: 16, right: 16, bottom: 10),
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
+                    border: InputBorder.none,
+                      errorText: '${ref.watch(PasswordRiverpodProvider)}',
+                    errorStyle: TextStyle(
+                      color: '${ref.watch(PasswordRiverpodProvider)}' != 'OK' ? Colors.red : Colors.green,
+                    ),
                   ),
                   keyboardType: TextInputType.visiblePassword,
+                    onSubmitted: (password) {
+                    validatePassword(ref, password);
+                  },
                   style: TextStyle(fontSize: 16, color: ColorSets.white),
                   cursorColor: Colors.white,
                 ),
@@ -97,7 +123,7 @@ class SignIn extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6)),
                         ),
-                        onPressed: () {},
+                        onPressed: '${ref.watch(PasswordRiverpodProvider)}' == 'OK' ? (){} : null,
                         child: Text('SIGN IN'),
                       ),
                     ),

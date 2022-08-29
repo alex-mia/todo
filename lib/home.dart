@@ -331,7 +331,7 @@ class Home extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 50,
+                height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,

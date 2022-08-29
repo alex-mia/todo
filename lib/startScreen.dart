@@ -18,9 +18,9 @@ class _StartScreenState extends State<StartScreen> {
     Timer(
         Duration(seconds: 3),
             () {Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Authorization()));}
+            context,
+            MaterialPageRoute(
+                builder: (context) => Authorization()));}
     );
   }
 
@@ -30,22 +30,22 @@ class _StartScreenState extends State<StartScreen> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(255, 214, 10, 1),
       body: Container(
-      child: Stack(
-       alignment: AlignmentDirectional.center,
-      children: [
-      Positioned(
-        child: Image.asset('images/vector.png',
-          fit: BoxFit.cover,
-          height: sazes.height,
-          width: sazes.width,
-        ),//Icon
-      ), //Positioned
-      Positioned(
-      child: Image.asset('images/logo.png'),
-    ),
-    ]
-    )
-    ),
+          child: Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                Positioned(
+                  child: Image.asset('images/vector.png',
+                    fit: BoxFit.cover,
+                    height: sazes.height,
+                    width: sazes.width,
+                  ),//Icon
+                ), //Positioned
+                Positioned(
+                  child: Image.asset('images/logo.png'),
+                ),
+              ]
+          )
+      ),
     );
   }
 }

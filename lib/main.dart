@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todo/colors.dart';
-import 'package:todo/signIn.dart';
-import 'package:todo/signUp.dart';
+
 import 'package:todo/startScreen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'authorization.dart';
-import 'home.dart';
 
-void main() {
-  runApp(const MyApp());
+void main()  {
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
