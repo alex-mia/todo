@@ -337,7 +337,8 @@ class Home extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   FloatingActionButton(
-                    onPressed: (){},
+                    onPressed: () {Navigator.pushNamed(context, '/add');
+                      },
                     tooltip: 'Increment',
                     child: const Icon(Icons.add),
                   ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo/providers/email_provider.dart';
-import 'package:todo/providers/password_provider.dart';
+import 'package:todo/autorization/email_provider.dart';
+import 'package:todo/autorization/password_provider.dart';
 
 
 
@@ -154,7 +154,7 @@ class SignUp extends ConsumerWidget {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(6)),
                         ),
-                        onPressed: '${ref.watch(PasswordRiverpodProvider)}' == 'OK' ? (){} : null,
+                        onPressed: '${ref.watch(PasswordRiverpodProvider)}' == 'OK' && '${ref.watch(EmailRiverpodProvider)}' == 'OK' ? (){} : null,
                         child: Text('SIGN UP'),
                       ),
                     ),

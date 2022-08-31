@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:todo/startScreen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'add_new_todo/add_new_todo.dart';
+
 
 void main()  {
   runApp(ProviderScope(child: MyApp()));
@@ -18,7 +20,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: StartScreen(),
+        initialRoute: '/',
+        routes: {
+          '/':(BuildContext context) => StartScreen(),
+          '/add':(BuildContext context) => Add_new_todo(),
+        }
+      // home: Add_new_todo(),
     );
   }
 }

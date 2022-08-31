@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:todo/signIn.dart';
-import 'package:todo/signUp.dart';
+import 'package:todo/autorization/signIn.dart';
+import 'package:todo/autorization/signUp.dart';
 
-import 'colors.dart';
-import 'home.dart';
+import '../colors.dart';
+import '../home.dart';
 
 class Authorization extends StatelessWidget {
   const Authorization({Key? key}) : super(key: key);
