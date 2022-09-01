@@ -190,7 +190,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '12',
+                        '0',
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -208,7 +208,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '4',
+                        '0',
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -226,7 +226,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '8',
+                        '0',
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -269,7 +269,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '12',
+                        '0',
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -287,7 +287,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '4',
+                        '0',
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -305,7 +305,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '4',
+                        '0',
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -323,7 +323,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '8',
+                        '0',
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),

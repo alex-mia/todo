@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 
 final EmailRiverpodProvider = StateNotifierProvider((ref) => EmailProvider());
 
@@ -9,7 +7,7 @@ class EmailProvider extends StateNotifier<String?> {
 
   void validateEmail(String? value) {
     if (value != null) {
-      if (value.length > 5 && value.contains('@')) {
+      if (value.length > 5 && value.contains('@') && value.contains('.')) {
         state = 'OK';
       }
       else {

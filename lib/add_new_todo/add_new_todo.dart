@@ -176,7 +176,7 @@ class Add_new_todo extends ConsumerWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6)),
                 ),
-                onPressed: (('${ref.watch(Add_new_RiverpodProvider)}' == 'Ok') && ('${ref.watch(Inbox_RiverpodProvider)}' != '  Inbox') && ('${ref.watch(Date_RiverpodProvider)}' != '   no date'))
+                onPressed: (('${ref.watch(Add_new_RiverpodProvider)}' == 'Ok') && ('${ref.watch(Inbox_RiverpodProvider)}' != '  Inbox'))
                     ? () {}
                     : null,
                 child: Text('ADD TODO'),
