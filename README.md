@@ -10,7 +10,7 @@ Application 'TO_DO'
 - task editing
 - set date and time for the task
 
-developer link: https://t.me/alexmia777
+developer link: https://www.linkedin.com/in/mukalov/
 
 
 
