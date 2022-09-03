@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:todo/startScreen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo/tasks_repository/home.dart';
 
 import 'add_new_todo/add_new_todo.dart';
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/':(BuildContext context) => StartScreen(),
           '/add':(BuildContext context) => Add_new_todo(),
+          '/home': (BuildContext context) => Home(),
         }
       // home: Add_new_todo(),
     );

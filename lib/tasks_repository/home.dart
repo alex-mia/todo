@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo/tasks_repository/total_tasks_provider.dart';
 
-class Home extends StatelessWidget {
+
+class Home extends ConsumerWidget {
   const Home({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -182,7 +185,6 @@ class Home extends StatelessWidget {
                   children: <Widget>[
                     ListTile(
                       onTap: (){
-                        print('Print');
                       },
                       leading: Image.asset('images/inbox.png'),
                       title: Text(
@@ -190,7 +192,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '0',
+                        ('${ref.watch(Task_repository_RiverpodProvider).inbox}'),
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -208,7 +210,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '0',
+                          ('${ref.watch(Task_repository_RiverpodProvider).today}'),
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -226,7 +228,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '0',
+                          ('${ref.watch(Task_repository_RiverpodProvider).upcoming}'),
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -269,7 +271,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '0',
+                          ('${ref.watch(Task_repository_RiverpodProvider).personal}'),
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -287,7 +289,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '0',
+                          ('${ref.watch(Task_repository_RiverpodProvider).work}'),
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -305,7 +307,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '0',
+                          ('${ref.watch(Task_repository_RiverpodProvider).design}'),
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),
@@ -323,7 +325,7 @@ class Home extends StatelessWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        '0',
+                          ('${ref.watch(Task_repository_RiverpodProvider).study}'),
                         style: TextStyle(color: ColorSets.grey_text),
                       ),
                     ),

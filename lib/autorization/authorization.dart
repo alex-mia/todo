@@ -4,7 +4,7 @@ import 'package:todo/autorization/signIn.dart';
 import 'package:todo/autorization/signUp.dart';
 
 import '../colors.dart';
-import '../task_repository/home.dart';
+import '../tasks_repository/home.dart';
 
 class Authorization extends StatelessWidget {
   const Authorization({Key? key}) : super(key: key);
