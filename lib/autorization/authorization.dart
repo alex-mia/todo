@@ -24,11 +24,11 @@ class Authorization extends StatelessWidget {
               scrollDirection: Axis.vertical,
               child: Column(children: [
                 SizedBox(
-                  height: 180,
+                  height: 150,
                 ),
                 Image.asset('images/logo.png'),
                 SizedBox(
-                  height: 146,
+                  height: 140,
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.max,

@@ -1,22 +1,23 @@
-class State_Tasks {
-  String text_task;
+import 'package:flutter/material.dart';
+
+class StateTasks {
+  String textTask;
   int? inbox;
   int? today;
   int? upcoming;
-  int? personal;
-  int? work;
-  int? design;
-  int? study;
+  int? projects;
+  Color? color;
+  Icon? icon;
 
 
-  State_Tasks(
-    this.text_task,
+
+  StateTasks(
+    this.textTask,
     this.inbox,
       this.today,
       this.upcoming,
-      this.personal,
-      this.work,
-      this.design,
-      this.study,
+      this.projects,
+      this.color,
+      this.icon,
   );
 }

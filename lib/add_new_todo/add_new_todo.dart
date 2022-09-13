@@ -12,7 +12,7 @@ DateTime date_now = new DateTime(now.year, now.month, now.day);
 class Add_new_todo extends ConsumerWidget {
   Add_new_todo({Key? key}) : super(key: key);
 
-  final ScrollController _scrollController = ScrollController();
+  // final ScrollController _scrollController = ScrollController();
 
   void validateTextField(WidgetRef ref, text) {
     ref.read(Add_new_RiverpodProvider.notifier).validateTextField(text);
@@ -21,7 +21,7 @@ class Add_new_todo extends ConsumerWidget {
   Future<void> selectDate(WidgetRef ref, context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate:  date_now,
+        initialDate: date_now,
         firstDate: DateTime(2022, 8),
         lastDate: DateTime(2101));
     ref.read(Add_new_RiverpodProvider.notifier).setDate(picked);
@@ -31,8 +31,10 @@ class Add_new_todo extends ConsumerWidget {
     ref.read(Inbox_RiverpodProvider.notifier).show_inbox(context);
   }
 
-  void add_task(WidgetRef ref, text_task, date, projects) {
-    ref.read(Task_repository_RiverpodProvider.notifier).total_tasks(text_task, date, projects);
+  void add_task(WidgetRef ref, text_task,  date, projects, color, icon) {
+    ref
+        .read(Task_repository_RiverpodProvider.notifier)
+        .totalTasks(text_task, date, projects, color, icon);
   }
 
   @override
@@ -46,16 +48,17 @@ class Add_new_todo extends ConsumerWidget {
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 50),
+                  padding: const EdgeInsets.only(left: 20, top: 30),
                   child: IconButton(
                     icon: Image.asset('images/close.png'),
                     iconSize: 50,
-                    onPressed: () {Navigator.pushNamed(context, '/home');
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/home');
                     },
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 45, top: 53),
+                  padding: const EdgeInsets.only(left: 45, top: 25),
                   child: Text(
                     'Add new todo',
                     style: TextStyle(
@@ -70,7 +73,7 @@ class Add_new_todo extends ConsumerWidget {
             Column(
               children: [
                 Container(
-                  margin: EdgeInsets.all(20),
+                  margin: EdgeInsets.only(bottom: 20, left: 20, right: 20),
                   child: TextField(
                     cursorColor: ColorSets.white,
                     style: TextStyle(fontSize: 16, color: ColorSets.white),
@@ -106,23 +109,32 @@ class Add_new_todo extends ConsumerWidget {
                           children: [
                             Image.asset(
                                 ref.watch(Add_new_RiverpodProvider).date !=
-                                        date_now && ref.watch(Add_new_RiverpodProvider).date != null
+                                            date_now &&
+                                        ref
+                                                .watch(Add_new_RiverpodProvider)
+                                                .date !=
+                                            null
                                     ? 'images/upcoming.png'
                                     : ref.watch(Add_new_RiverpodProvider).date ==
-                                    date_now && ref.watch(Add_new_RiverpodProvider).date != null
-                                    ? 'images/today.png'
+                                                date_now &&
+                                            ref
+                                                    .watch(
+                                                        Add_new_RiverpodProvider)
+                                                    .date !=
+                                                null
+                                        ? 'images/today.png'
                                         : 'images/time.png',
                                 width: 20,
                                 height: 20),
                             Text(
                               ('${ref.watch(Add_new_RiverpodProvider).timing}'),
                               style: TextStyle(
-                               color:
-    ref.watch(Add_new_RiverpodProvider).date !=
-    null
-    ? ColorSets.white
-        : ColorSets.grey_text,
-                            ),
+                                color:
+                                    ref.watch(Add_new_RiverpodProvider).date !=
+                                            null
+                                        ? ColorSets.white
+                                        : ColorSets.grey_text,
+                              ),
                             ),
                           ],
                         ),
@@ -141,28 +153,17 @@ class Add_new_todo extends ConsumerWidget {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(
-                                '${ref.watch(Inbox_RiverpodProvider)}' ==
-                                        '  Personal'
-                                    ? 'images/rectangle_yellow.png'
-                                    : '${ref.watch(Inbox_RiverpodProvider)}' ==
-                                            '  Work'
-                                        ? 'images/rectangle_orange.png'
-                                        : '${ref.watch(Inbox_RiverpodProvider)}' ==
-                                                '  Design'
-                                            ? 'images/rectangle_purple.png'
-                                            : '${ref.watch(Inbox_RiverpodProvider)}' ==
-                                                    '  Study'
-                                                ? 'images/rectangle_green.png'
-                                                : 'images/inbox.png',
-                                width: 20,
-                                height: 20),
+                            Icon(
+                                ref.watch(Inbox_RiverpodProvider).icon,
+                                color: ref.watch(Inbox_RiverpodProvider).color,
+                                size: 20
+                              ),
                             Text(
-                              '${ref.watch(Inbox_RiverpodProvider)}',
+                              '  ${ref.watch(Inbox_RiverpodProvider).text}',
                               style: TextStyle(
                                   color:
-                                      '${ref.watch(Inbox_RiverpodProvider)}' !=
-                                              '  Inbox'
+                                      {ref.watch(Inbox_RiverpodProvider).color} !=
+                                              Colors.yellow
                                           ? ColorSets.white
                                           : ColorSets.grey_text),
                             ),
@@ -184,8 +185,25 @@ class Add_new_todo extends ConsumerWidget {
                 ),
                 onPressed: ref.watch(Add_new_RiverpodProvider).hasText == true
                     ? () {
-                        add_task(ref, ref.watch(Add_new_RiverpodProvider).text, ref.watch(Add_new_RiverpodProvider).date, ref.watch(Inbox_RiverpodProvider) );
-                      }
+                    add_task(
+                      ref,
+                      ref
+                          .watch(Add_new_RiverpodProvider)
+                          .text,
+                      ref
+                          .watch(Add_new_RiverpodProvider)
+                          .date,
+                      ref
+                          .watch(Inbox_RiverpodProvider)
+                          .text,
+                      ref
+                          .watch(Inbox_RiverpodProvider)
+                          .color,
+                      ref
+                          .watch(Inbox_RiverpodProvider)
+                          .icon,);
+                    Navigator.pushNamed(context, '/home_add');
+                  }
                     : null,
                 child: Text('ADD TODO'),
               ),

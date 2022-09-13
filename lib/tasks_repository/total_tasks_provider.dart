@@ -1,55 +1,77 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo/projects/add_projects_provider.dart';
 import 'package:todo/tasks_repository/state_tasks.dart';
 
 import '../add_new_todo/add_new_todo.dart';
 
 
-final Task_repository_RiverpodProvider = StateNotifierProvider<Task_repository_Provider, State_Tasks>((ref) => Task_repository_Provider());
+final Task_repository_RiverpodProvider = StateNotifierProvider<TaskRepositoryProvider, StateTasks>((ref) => TaskRepositoryProvider());
 
 
+var totalInboxTask =  Map();
+var totalTodayTask = Map();
+var totalUpcomingTask = Map();
+var totalNoTimeTask = Map();
+var totalProjectsTask = Map();
+var totalCounterProjectsTask = Map();
+var totalColorsTask = Map();
+var totalIconTask = Map();
 
-class Task_repository_Provider extends StateNotifier<State_Tasks> {
-  Task_repository_Provider() : super(State_Tasks('', 0, 0, 0, 0, 0, 0, 0));
 
-  var total_inbox_task = new Map();
-  var total_today_task = new Map();
-  var total_upcoming_task = new Map();
-  var total_personal_task = new Map();
-  var total_work_task = new Map();
-  var total_design_task = new Map();
-  var total_study_task = new Map();
+class TaskRepositoryProvider extends StateNotifier<StateTasks> {
+  TaskRepositoryProvider() : super(StateTasks(
+      '',
+      0,
+      0,
+      0,
+      0,
+      null,
+      null));
+
   int number = 1;
+  int counter = 1;
 
-  void total_tasks(text_task, date, projects) {
+
+  void totalTasks(textTask, date, projects, color, icon) {
     {
-      total_inbox_task[number] = '$text_task';
-      if ('$date' == '$date_now'){
-      total_today_task[number] = '$date';}
-      else{total_upcoming_task[number] = '$date';}}
-    if ('$projects' == '  Work'){
-      total_work_task [number] = '$projects';}
-    if ('$projects' == '  Personal'){
-      total_personal_task [number] = '$projects';}
-    if ('$projects' == '  Design'){
-      total_design_task [number] = '$projects';}
-    if ('$projects' == '  Study'){
-      total_study_task [number] = '$projects';}
-
+      totalInboxTask[number] = '$textTask';
+      if ('$date' == '$date_now') {
+        totalTodayTask[number] = '$textTask';
+      }
+      if (date != date_now && date != null) {
+        totalUpcomingTask[number] = '$textTask';
+      }
+      if (date == null) {
+        totalNoTimeTask[number] = '$textTask';
+      }
+    }
+    if ('$projects' != null) {
+      totalProjectsTask [number] = projects;
+      totalColorsTask [number] = color;
+      totalIconTask [ number] = icon;
+    }
+    if ('$projects' != null && totalCounterProjectsTask[projects] == null) {
+      totalCounterProjectsTask[projects] = 1;}
+    else {
+      totalCounterProjectsTask[projects] += 1;
+      // counter = counter + 1;
+      }
       number += 1;
-      state.inbox = total_inbox_task.length;
-      state.today = total_today_task.length;
-      state.upcoming = total_upcoming_task.length;
-      state.work = total_work_task.length;
-      state.personal = total_personal_task.length;
-      state.design = total_design_task.length;
-      state.study = total_study_task.length;
-      print('всего - $total_inbox_task');
-      print('сегодня -$total_today_task');
-      print('в планах - $total_upcoming_task');
-    print('работа - $total_work_task');
-    print('персональные - $total_personal_task');
-    print('дизайн - $total_design_task');
-    print('учеба - $total_study_task');
+
+
+      state.inbox = totalInboxTask.length;
+      state.today = totalTodayTask.length;
+      state.upcoming = totalUpcomingTask.length;
+      state.projects = totalProjectsTask.length;
+      print('всего - $totalInboxTask');
+      print('сегодня -$totalTodayTask');
+      print('в планах - $totalUpcomingTask');
+      print('Projects id - $totalProjectsTask');
+      print('Projects  считает кол:- $totalCounterProjectsTask');
+      print('Цвет Project - $totalColorsTask');
+      print('Icon Project - $totalIconTask');
+      print('нет времени - $totalNoTimeTask');
     }
   }
+
 

@@ -1,13 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/tasks_repository/total_tasks_provider.dart';
-
 import '../projects/add_projects_provider.dart';
+import 'home.dart';
 
-class Home extends ConsumerWidget {
-  const Home({Key? key}) : super(key: key);
+class Home_add extends ConsumerWidget {
+  const Home_add({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,8 +84,7 @@ class Home extends ConsumerWidget {
                   height: 40,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/projects');
+                  onTap: () {Navigator.pushNamed(context, '/projects');
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -152,7 +153,7 @@ class Home extends ConsumerWidget {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.only(right: 16, left: 16, top: 32),
+        padding: EdgeInsets.only(right: 16, left: 16, top: 5),
         height: double.infinity,
         width: double.infinity,
         color: ColorSets.black,
@@ -160,8 +161,42 @@ class Home extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Center(
+                child: Container(
+
+                  height: 30,
+                  width: 320,
+                  decoration: BoxDecoration(
+                    color: ColorSets.white,
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        child: Icon(
+                          Icons.add_task,
+                          color: Colors.green,
+                        ),
+                      ),
+                      Flexible(
+                        child: Text(
+                          'Task added in ${ref.watch(AddProjects_RiverpodProvider).text}',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      IconButton(
+                        autofocus: true,
+                          icon: const Icon(Icons.close_outlined, color: Colors.black, size: 17, ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/home');
+                          }),
+                    ],
+                  ),
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.only(left: 16, bottom: 16),
+                padding: const EdgeInsets.only(left: 16, bottom: 16, top: 3),
                 child: Text(
                   'Hello Alex! 👋',
                   style: TextStyle(
@@ -184,9 +219,7 @@ class Home extends ConsumerWidget {
                 child: ListView(
                   children: <Widget>[
                     ListTile(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/inbox');
-                      },
+                      onTap: () {Navigator.pushNamed(context, '/inbox');},
                       leading: Image.asset('images/inbox.png'),
                       title: Text(
                         'Inbox',
@@ -202,9 +235,7 @@ class Home extends ConsumerWidget {
                       child: Divider(color: ColorSets.white),
                     ),
                     ListTile(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/today');
-                      },
+                      onTap: () {Navigator.pushNamed(context, '/today');},
                       leading: Image.asset('images/today.png'),
                       title: Text(
                         'Today',
@@ -220,9 +251,7 @@ class Home extends ConsumerWidget {
                       child: Divider(color: ColorSets.white),
                     ),
                     ListTile(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/upcoming');
-                      },
+                      onTap: () {Navigator.pushNamed(context, '/upcoming');},
                       leading: Image.asset('images/upcoming.png'),
                       title: Text(
                         'Upcoming',
@@ -262,7 +291,6 @@ class Home extends ConsumerWidget {
                 ),
                 child: ListView.builder(
                   itemCount: allProjects.length,
-                  // separatorBuilder: (BuildContext context, int index) => Divider(height: 3, color: Colors.white,),
                   itemBuilder: (BuildContext context, int index) {
                     return Card(
                       margin: EdgeInsets.all(1),
@@ -270,15 +298,15 @@ class Home extends ConsumerWidget {
                       shadowColor: Colors.white,
                       child: Column(
                         children: <Widget>[
-                          ListTile(
-                            trailing: Text(
-                              '${totalCounterProjectsTask[allProjects[index + 1]] == null ? '0' : totalCounterProjectsTask[allProjects[index + 1]]}',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                          ListTile(trailing: Text(
+                            '${totalCounterProjectsTask[allProjects[index + 1]] == null ? '0' : totalCounterProjectsTask[allProjects[index + 1]]}',
+                            style: TextStyle(color: Colors.white),
+                          ),
                             leading: Icon(Icons.circle_sharp,
-                                size: 14, color: colorProjects[index + 1]),
+                                size: 14,
+                                color: colorProjects[index+1]),
                             title: Text(
-                              '${allProjects[index + 1]}',
+                              '${allProjects[index+1]}',
                               style: TextStyle(color: ColorSets.white),
                             ),
                           ),
@@ -289,7 +317,7 @@ class Home extends ConsumerWidget {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
