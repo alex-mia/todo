@@ -54,7 +54,6 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
       totalCounterProjectsTask[projects] = 1;}
     else {
       totalCounterProjectsTask[projects] += 1;
-      // counter = counter + 1;
       }
       number += 1;
 

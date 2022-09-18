@@ -11,6 +11,11 @@ import 'home.dart';
 class Home_add extends ConsumerWidget {
   const Home_add({Key? key}) : super(key: key);
 
+
+  void setProjects(WidgetRef ref, text) {
+    ref.read(AddProjects_RiverpodProvider.notifier).setProjects(text);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -298,7 +303,12 @@ class Home_add extends ConsumerWidget {
                       shadowColor: Colors.white,
                       child: Column(
                         children: <Widget>[
-                          ListTile(trailing: Text(
+                          ListTile(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/filters_projects');
+                              setProjects(ref, allProjects[index + 1]);
+                            },
+                            trailing: Text(
                             '${totalCounterProjectsTask[allProjects[index + 1]] == null ? '0' : totalCounterProjectsTask[allProjects[index + 1]]}',
                             style: TextStyle(color: Colors.white),
                           ),

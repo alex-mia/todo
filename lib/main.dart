@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo/projects/addNewProjects.dart';
+import 'package:todo/projects/filterProjects.dart';
 import 'package:todo/projects/projects.dart';
+import 'package:todo/search/searchTasks.dart';
 
 import 'package:todo/startScreen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,6 +40,8 @@ class MyApp extends StatelessWidget {
           '/upcoming': (BuildContext context) => Upcoming(),
           '/projects':(BuildContext context) => Projects (),
           '/add_projects':(BuildContext context) => AddNewProjects(),
+          '/filters_projects':(BuildContext context) => FilterProjects(),
+          '/search':(BuildContext context) => SearchTask(),
         }
       // home: Add_new_todo(),
     );

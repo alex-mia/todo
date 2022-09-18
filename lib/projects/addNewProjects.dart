@@ -188,7 +188,7 @@ class AddNewProjects extends ConsumerWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6)),
                 ),
-                onPressed: ref.watch(AddProjects_RiverpodProvider).hasText == true && ref.watch(AddProjects_RiverpodProvider).icon != Icons.circle_rounded
+                onPressed: ref.watch(AddProjects_RiverpodProvider).hasText == true && ref.watch(AddProjects_RiverpodProvider).color != Icons.circle_rounded
     ? () { addProjects(
                   ref,
                     ref.watch(AddProjects_RiverpodProvider).text,

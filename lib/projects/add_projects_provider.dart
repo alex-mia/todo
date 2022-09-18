@@ -37,4 +37,9 @@ class AddProjects_Provider extends StateNotifier<StateProjects> {
     print('Ключи проектов - $allProjects');
     print('$colorProjects');
   }
+
+  void setProjects(String text){
+    state = StateProjects(state.hasText, text, state.color, state.icon);
+  }
+
 }
