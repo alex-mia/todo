@@ -11,8 +11,13 @@ class SearchTask extends ConsumerWidget {
   SearchTask({Key? key}) : super(key: key);
 
   final ScrollController _scrollController = ScrollController();
+
   void validDateSearch(WidgetRef ref, text) {
     ref.read(Search_Provider_RiverpodProvider.notifier).validDateSearch(text);
+  }
+
+  void changeCompletedIcon(WidgetRef ref, text) {
+    ref.watch(Task_repository_RiverpodProvider.notifier).changeCompletedIcon(text);
   }
 
   @override
@@ -38,12 +43,11 @@ class SearchTask extends ConsumerWidget {
                   },
                   textAlignVertical: TextAlignVertical.bottom,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(20.0),
+                    contentPadding: EdgeInsets.all(20.0),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20.0),
                     ),
-                    hintStyle:
-                        TextStyle(color: ColorSets.white, fontSize: 20),
+                    hintStyle: TextStyle(color: ColorSets.white, fontSize: 20),
                     hintText: "🔍 ",
                     fillColor: ColorSets.gray,
                     filled: true,
@@ -54,9 +58,9 @@ class SearchTask extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.only(left: 20, top: 60),
               child: GestureDetector(
-
-                onTap: (){Navigator.pop(context, '/home');
-                  },
+                onTap: () {
+                  Navigator.pop(context, '/home');
+                },
                 child: Text(
                   'Cancel',
                   style: TextStyle(
@@ -72,12 +76,16 @@ class SearchTask extends ConsumerWidget {
           children: [
             Container(
               width: 350,
-              constraints: BoxConstraints(maxWidth: double.infinity, maxHeight: 400),
+              constraints:
+                  BoxConstraints(maxWidth: double.infinity, maxHeight: 580),
               color: ColorSets.black,
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount: ref.watch(Search_Provider_RiverpodProvider) == 0 ? 0 : totalSearchTask.length,
+                itemCount: ref.watch(Search_Provider_RiverpodProvider) == 0
+                    ? 0
+                    : totalSearchTask.length,
                 itemBuilder: (BuildContext context, int index) {
+                  ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Card(
                     color: ColorSets.black,
                     shadowColor: Colors.white,
@@ -86,8 +94,16 @@ class SearchTask extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         ListTile(
-                          leading:
-                          Icon(Icons.radio_button_off, color: Colors.grey),
+                          leading: InkWell(
+                            child: Icon(totalIconSearch[totalSearchTask[index]],
+                                color: Colors.grey),
+                            highlightColor: Colors.deepOrange,
+                            radius: 10.0,
+                            borderRadius: BorderRadius.circular(20.0),
+                            onTap: () {
+                              changeCompletedIcon(ref, '${totalInboxTask[totalSearchTask[index]]}');
+                            },
+                          ),
                           title: Text(
                             '${totalInboxTask[totalSearchTask[index]]}',
                             style: TextStyle(color: ColorSets.white),
@@ -97,13 +113,15 @@ class SearchTask extends ConsumerWidget {
                           children: [
                             Padding(
                               padding:
-                              const EdgeInsets.only(left: 50, bottom: 15),
+                                  const EdgeInsets.only(left: 50, bottom: 15),
                               child: Image.asset(
                                   totalTodayTask[totalSearchTask[index]] != null
                                       ? 'images/today.png'
-                                      : totalUpcomingTask[totalSearchTask[index]] != null
-                                      ? 'images/upcoming.png'
-                                      : 'images/time.png',
+                                      : totalUpcomingTask[
+                                                  totalSearchTask[index]] !=
+                                              null
+                                          ? 'images/upcoming.png'
+                                          : 'images/time.png',
                                   width: 20,
                                   height: 20),
                             ),
@@ -112,11 +130,15 @@ class SearchTask extends ConsumerWidget {
                               child: Text(
                                 totalTodayTask[totalSearchTask[index]] != null
                                     ? '  Today'
-                                    : totalUpcomingTask[totalSearchTask[index]] != null
-                                    ? '  Upcoming'
-                                    : totalNoTimeTask[totalSearchTask[index]] != null
-                                    ? '  no time'
-                                    : 'no time',
+                                    : totalUpcomingTask[
+                                                totalSearchTask[index]] !=
+                                            null
+                                        ? '  Upcoming'
+                                        : totalNoTimeTask[
+                                                    totalSearchTask[index]] !=
+                                                null
+                                            ? '  no time'
+                                            : 'no time',
                                 style: TextStyle(
                                   color: ColorSets.grey_text,
                                 ),
@@ -124,9 +146,11 @@ class SearchTask extends ConsumerWidget {
                             ),
                             Padding(
                               padding:
-                              const EdgeInsets.only(left: 20, bottom: 15),
+                                  const EdgeInsets.only(left: 20, bottom: 15),
                               child: Icon(totalIconTask[totalSearchTask[index]],
-                                  color: totalColorsTask[totalSearchTask[index]], size: 20),
+                                  color:
+                                      totalColorsTask[totalSearchTask[index]],
+                                  size: 20),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(bottom: 15),
@@ -134,10 +158,10 @@ class SearchTask extends ConsumerWidget {
                                 '  ${totalProjectsTask[index + 1]}',
                                 style: TextStyle(
                                     color:
-                                    '${ref.watch(Inbox_RiverpodProvider).text}' !=
-                                        null
-                                        ? ColorSets.white
-                                        : ColorSets.grey_text),
+                                        '${ref.watch(Inbox_RiverpodProvider).text}' !=
+                                                null
+                                            ? ColorSets.white
+                                            : ColorSets.grey_text),
                               ),
                             ),
                           ],

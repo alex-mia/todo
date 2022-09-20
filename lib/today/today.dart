@@ -10,6 +10,10 @@ class Today extends ConsumerWidget {
   List totalTodayTaskKey = totalTodayTask.keys.toList();
   List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
 
+  void changeCompletedIcon(WidgetRef ref, text) {
+    ref.watch(Task_repository_RiverpodProvider.notifier).changeCompletedIcon(text);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -51,6 +55,7 @@ class Today extends ConsumerWidget {
                 controller: _scrollController,
                 itemCount: totalNoTimeTask.length,
                 itemBuilder: (BuildContext context, int index) {
+                  ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Card(
                     color: ColorSets.black,
                     shadowColor: Colors.white,
@@ -59,8 +64,16 @@ class Today extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         ListTile(
-                          leading:
-                              Icon(Icons.radio_button_off, color: Colors.grey),
+                          leading: InkWell(
+                            child: Icon(totalIconSearch[totalNoTimeTaskKey[index]],
+                                color: Colors.grey),
+                            highlightColor: Colors.deepOrange,
+                            radius: 10.0,
+                            borderRadius: BorderRadius.circular(20.0),
+                            onTap: () {
+                              changeCompletedIcon(ref, '${totalInboxTask[totalNoTimeTaskKey[index]]}');
+                            },
+                          ),
                           title: Text(
                             '${totalInboxTask[totalNoTimeTaskKey[index]]}',
                             style: TextStyle(color: ColorSets.white),
@@ -121,7 +134,9 @@ class Today extends ConsumerWidget {
                 },
               ),
             ),
-            Divider(color: Colors.grey,),
+            Divider(
+              color: Colors.grey,
+            ),
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: Text(
@@ -133,7 +148,8 @@ class Today extends ConsumerWidget {
               ),
             ),
             Container(
-              constraints: BoxConstraints(maxWidth: double.infinity, maxHeight: 490),
+              constraints:
+                  BoxConstraints(maxWidth: double.infinity, maxHeight: 490),
               color: ColorSets.black,
               child: ListView.separated(
                 controller: _scrollController,
@@ -141,6 +157,7 @@ class Today extends ConsumerWidget {
                 separatorBuilder: (BuildContext context, int index) =>
                     Divider(),
                 itemBuilder: (BuildContext context, int index) {
+                  ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Card(
                     color: ColorSets.black,
                     shadowColor: Colors.white,
@@ -149,8 +166,16 @@ class Today extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         ListTile(
-                          leading:
-                              Icon(Icons.radio_button_off, color: Colors.grey),
+                          leading: InkWell(
+                            child:  Icon(totalIconSearch[totalTodayTaskKey[index]],
+                                color: Colors.grey),
+                            highlightColor: Colors.deepOrange,
+                            radius: 10.0,
+                            borderRadius: BorderRadius.circular(20.0),
+                            onTap: () {
+                              changeCompletedIcon(ref, '${totalTodayTask[totalTodayTaskKey[index]]}');
+                            },
+                          ),
                           title: Text(
                             '${totalTodayTask[totalTodayTaskKey[index]]}',
                             style: TextStyle(color: ColorSets.white),

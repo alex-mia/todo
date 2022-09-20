@@ -8,6 +8,7 @@ class StateTasks {
   int? projects;
   Color? color;
   Icon? icon;
+  IconData? iconChange;
 
 
 
@@ -19,5 +20,6 @@ class StateTasks {
       this.projects,
       this.color,
       this.icon,
+      this.iconChange,
   );
 }

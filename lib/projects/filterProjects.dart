@@ -11,6 +11,10 @@ class FilterProjects extends ConsumerWidget {
   List totalTodayTaskKey = totalTodayTask.keys.toList();
   List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
 
+  void changeCompletedIcon(WidgetRef ref, text) {
+    ref.watch(Task_repository_RiverpodProvider.notifier).changeCompletedIcon(text);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -34,104 +38,104 @@ class FilterProjects extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           verticalDirection: VerticalDirection.down,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 18, top: 36),
-              child: Text(
-                'OVERDUE',
-                style: TextStyle(
-                  color: ColorSets.grey_text,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Container(
-              constraints:
-              BoxConstraints(maxWidth: double.infinity, maxHeight: 100),
-              color: ColorSets.black,
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: totalNoTimeTask.length,
-                itemBuilder: (BuildContext context, int index) {
-                  if ('${ref.watch(AddProjects_RiverpodProvider).text}' == totalProjectsTask[index+1]) {
-                    return Card(
-                      color: ColorSets.black,
-                      shadowColor: Colors.white,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          ListTile(
-                            leading:
-                            Icon(Icons.radio_button_off, color: Colors.grey),
-                            title: Text(
-                              '${totalInboxTask[totalNoTimeTaskKey[index]]}',
-                              style: TextStyle(color: ColorSets.white),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Padding(
-                                padding:
-                                const EdgeInsets.only(left: 50, bottom: 15),
-                                child: Image.asset(
-                                    totalUpcomingTask[
-                                    totalNoTimeTaskKey[index]] !=
-                                        null
-                                        ? 'images/upcoming.png'
-                                        : 'images/time.png',
-                                    width: 20,
-                                    height: 20),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 15),
-                                child: Text(
-                                  totalUpcomingTask[totalNoTimeTaskKey[index]] !=
-                                      null
-                                      ? '  Upcoming'
-                                      : '  no time',
-                                  style: TextStyle(
-                                    color: ColorSets.grey_text,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                const EdgeInsets.only(left: 20, bottom: 15),
-                                child: Icon(
-                                    totalIconTask[totalNoTimeTaskKey[index]],
-                                    color: totalColorsTask[
-                                    totalNoTimeTaskKey[index]],
-                                    size: 20),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 15),
-                                child: Text(
-                                  '  ${totalProjectsTask[totalNoTimeTaskKey[index]]}',
-                                  style: TextStyle(
-                                      color:
-                                      '${ref
-                                          .watch(Inbox_RiverpodProvider)
-                                          .text}' !=
-                                          null
-                                          ? ColorSets.white
-                                          : ColorSets.grey_text),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  } else{
-                    return Card(
-                      color: ColorSets.black,
-                      shadowColor: Colors.white,
-                      child: null,
-                    );
-                  }
-                },
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 18, top: 36),
+            //   child: Text(
+            //     'OVERDUE',
+            //     style: TextStyle(
+            //       color: ColorSets.grey_text,
+            //       fontWeight: FontWeight.bold,
+            //     ),
+            //   ),
+            // ),
+            // Container(
+            //   constraints:
+            //   BoxConstraints(maxWidth: double.infinity, maxHeight: 100),
+            //   color: ColorSets.black,
+            //   child: ListView.builder(
+            //     controller: _scrollController,
+            //     itemCount: totalNoTimeTask.length,
+            //     itemBuilder: (BuildContext context, int index) {
+            //       if ('${ref.watch(AddProjects_RiverpodProvider).text}' == totalProjectsTask[index+1]) {
+            //         return Card(
+            //           color: ColorSets.black,
+            //           shadowColor: Colors.white,
+            //           child: Column(
+            //             mainAxisSize: MainAxisSize.min,
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: <Widget>[
+            //               ListTile(
+            //                 leading:
+            //                 Icon(Icons.radio_button_off, color: Colors.grey),
+            //                 title: Text(
+            //                   '${totalInboxTask[totalNoTimeTaskKey[index]]}',
+            //                   style: TextStyle(color: ColorSets.white),
+            //                 ),
+            //               ),
+            //               Row(
+            //                 children: [
+            //                   Padding(
+            //                     padding:
+            //                     const EdgeInsets.only(left: 50, bottom: 15),
+            //                     child: Image.asset(
+            //                         totalUpcomingTask[
+            //                         totalNoTimeTaskKey[index]] !=
+            //                             null
+            //                             ? 'images/upcoming.png'
+            //                             : 'images/time.png',
+            //                         width: 20,
+            //                         height: 20),
+            //                   ),
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(bottom: 15),
+            //                     child: Text(
+            //                       totalUpcomingTask[totalNoTimeTaskKey[index]] !=
+            //                           null
+            //                           ? '  Upcoming'
+            //                           : '  no time',
+            //                       style: TextStyle(
+            //                         color: ColorSets.grey_text,
+            //                       ),
+            //                     ),
+            //                   ),
+            //                   Padding(
+            //                     padding:
+            //                     const EdgeInsets.only(left: 20, bottom: 15),
+            //                     child: Icon(
+            //                         totalIconTask[totalNoTimeTaskKey[index]],
+            //                         color: totalColorsTask[
+            //                         totalNoTimeTaskKey[index]],
+            //                         size: 20),
+            //                   ),
+            //                   Padding(
+            //                     padding: const EdgeInsets.only(bottom: 15),
+            //                     child: Text(
+            //                       '  ${totalProjectsTask[totalNoTimeTaskKey[index]]}',
+            //                       style: TextStyle(
+            //                           color:
+            //                           '${ref
+            //                               .watch(Inbox_RiverpodProvider)
+            //                               .text}' !=
+            //                               null
+            //                               ? ColorSets.white
+            //                               : ColorSets.grey_text),
+            //                     ),
+            //                   ),
+            //                 ],
+            //               ),
+            //             ],
+            //           ),
+            //         );
+            //       } else{
+            //         return Card(
+            //           color: ColorSets.black,
+            //           shadowColor: Colors.white,
+            //           child: null,
+            //         );
+            //       }
+            //     },
+            //   ),
+            // ),
             Divider(color: Colors.grey,),
             Padding(
               padding: const EdgeInsets.all(18.0),
@@ -145,12 +149,13 @@ class FilterProjects extends ConsumerWidget {
             ),
             Container(
               constraints:
-              BoxConstraints(maxWidth: double.infinity, maxHeight: 200),
+              BoxConstraints(maxWidth: double.infinity, maxHeight: 580),
               color: ColorSets.black,
               child: ListView.builder(
                 controller: _scrollController,
                 itemCount: totalInboxTask.length,
                 itemBuilder: (BuildContext context, int index) {
+                  ref.watch(Task_repository_RiverpodProvider).iconChange;
                   if ('${ref.watch(AddProjects_RiverpodProvider).text}' == totalProjectsTask[index+1]) {
                     return Card(
                       color: ColorSets.black,
@@ -160,8 +165,16 @@ class FilterProjects extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           ListTile(
-                            leading:
-                            Icon(Icons.radio_button_off, color: Colors.grey),
+                            leading: InkWell(
+                              child: Icon(totalIconSearch[index],
+                                  color: Colors.grey),
+                              highlightColor: Colors.deepOrange,
+                              radius: 10.0,
+                              borderRadius: BorderRadius.circular(20.0),
+                              onTap: () {
+                                changeCompletedIcon(ref, '${totalInboxTask[index]}');
+                              },
+                            ),
                             title: Text(
                               '${totalInboxTask[index]}',
                               style: TextStyle(color: ColorSets.white),

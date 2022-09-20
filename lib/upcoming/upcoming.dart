@@ -10,6 +10,10 @@ class Upcoming extends ConsumerWidget {
   List totalUpcomingTaskKey = totalUpcomingTask.keys.toList();
   List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
 
+  void changeCompletedIcon(WidgetRef ref, text) {
+    ref.watch(Task_repository_RiverpodProvider.notifier).changeCompletedIcon(text);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -40,17 +44,18 @@ class Upcoming extends ConsumerWidget {
                 style: TextStyle(
                   color: ColorSets.grey_text,
                   fontWeight: FontWeight.bold,
-
                 ),
               ),
             ),
             Container(
-              constraints: BoxConstraints(maxWidth: double.infinity, maxHeight: 100),
+              constraints:
+                  BoxConstraints(maxWidth: double.infinity, maxHeight: 100),
               color: ColorSets.black,
               child: ListView.builder(
                 controller: _scrollController,
                 itemCount: totalNoTimeTask.length,
                 itemBuilder: (BuildContext context, int index) {
+                  ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Card(
                     color: ColorSets.black,
                     shadowColor: Colors.white,
@@ -59,8 +64,16 @@ class Upcoming extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         ListTile(
-                          leading:
-                              Icon(Icons.radio_button_off, color: Colors.grey),
+                          leading: InkWell(
+                            child: Icon(totalIconSearch[totalNoTimeTaskKey[index]],
+                                color: Colors.grey),
+                            highlightColor: Colors.deepOrange,
+                            radius: 10.0,
+                            borderRadius: BorderRadius.circular(20.0),
+                            onTap: () {
+                              changeCompletedIcon(ref, '${totalInboxTask[totalNoTimeTaskKey[index]]}');
+                            },
+                          ),
                           title: Text(
                             '${totalInboxTask[totalNoTimeTaskKey[index]]}',
                             style: TextStyle(color: ColorSets.white),
@@ -83,8 +96,7 @@ class Upcoming extends ConsumerWidget {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 15),
                               child: Text(
-                                totalUpcomingTask[
-                                            totalNoTimeTaskKey[index]] !=
+                                totalUpcomingTask[totalNoTimeTaskKey[index]] !=
                                         null
                                     ? '  Upcoming'
                                     : '  no time',
@@ -122,7 +134,9 @@ class Upcoming extends ConsumerWidget {
                 },
               ),
             ),
-            Divider(color: Colors.grey,),
+            Divider(
+              color: Colors.grey,
+            ),
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: Text(
@@ -134,12 +148,14 @@ class Upcoming extends ConsumerWidget {
               ),
             ),
             Container(
-              constraints: BoxConstraints(maxWidth: double.infinity, maxHeight: 300),
+              constraints:
+                  BoxConstraints(maxWidth: double.infinity, maxHeight: 300),
               color: ColorSets.black,
               child: ListView.builder(
                 controller: _scrollController,
                 itemCount: totalUpcomingTask.length,
                 itemBuilder: (BuildContext context, int index) {
+                  ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Card(
                     color: ColorSets.black,
                     shadowColor: Colors.white,
@@ -148,8 +164,16 @@ class Upcoming extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         ListTile(
-                          leading:
-                          Icon(Icons.radio_button_off, color: Colors.grey),
+                          leading: InkWell(
+                            child: Icon(totalIconSearch[totalUpcomingTaskKey[index]],
+                                color: Colors.grey),
+                            highlightColor: Colors.deepOrange,
+                            radius: 40.0,
+                            borderRadius: BorderRadius.circular(20.0),
+                            onTap: () {
+                              changeCompletedIcon(ref, '${totalUpcomingTask[totalUpcomingTaskKey[index]]}');
+                            },
+                          ),
                           title: Text(
                             '${totalUpcomingTask[totalUpcomingTaskKey[index]]}',
                             style: TextStyle(color: ColorSets.white),
@@ -159,11 +183,11 @@ class Upcoming extends ConsumerWidget {
                           children: [
                             Padding(
                               padding:
-                              const EdgeInsets.only(left: 50, bottom: 15),
+                                  const EdgeInsets.only(left: 50, bottom: 15),
                               child: Image.asset(
                                   totalUpcomingTask[
-                                  totalUpcomingTaskKey[index]] !=
-                                      null
+                                              totalUpcomingTaskKey[index]] !=
+                                          null
                                       ? 'images/upcoming.png'
                                       : 'images/time.png',
                                   width: 20,
@@ -173,8 +197,8 @@ class Upcoming extends ConsumerWidget {
                               padding: const EdgeInsets.only(bottom: 15),
                               child: Text(
                                 totalUpcomingTask[
-                                totalUpcomingTaskKey[index]] !=
-                                    null
+                                            totalUpcomingTaskKey[index]] !=
+                                        null
                                     ? '  Upcoming'
                                     : '  no time',
                                 style: TextStyle(
@@ -184,11 +208,11 @@ class Upcoming extends ConsumerWidget {
                             ),
                             Padding(
                               padding:
-                              const EdgeInsets.only(left: 20, bottom: 15),
+                                  const EdgeInsets.only(left: 20, bottom: 15),
                               child: Icon(
                                   totalIconTask[totalUpcomingTaskKey[index]],
                                   color: totalColorsTask[
-                                  totalUpcomingTaskKey[index]],
+                                      totalUpcomingTaskKey[index]],
                                   size: 20),
                             ),
                             Padding(
@@ -197,10 +221,10 @@ class Upcoming extends ConsumerWidget {
                                 '  ${totalProjectsTask[totalUpcomingTaskKey[index]]}',
                                 style: TextStyle(
                                     color:
-                                    '${ref.watch(Inbox_RiverpodProvider).text}' !=
-                                        null
-                                        ? ColorSets.white
-                                        : ColorSets.grey_text),
+                                        '${ref.watch(Inbox_RiverpodProvider).text}' !=
+                                                null
+                                            ? ColorSets.white
+                                            : ColorSets.grey_text),
                               ),
                             ),
                           ],
