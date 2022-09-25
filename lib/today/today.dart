@@ -56,7 +56,30 @@ class Today extends ConsumerWidget {
                 itemCount: totalNoTimeTask.length,
                 itemBuilder: (BuildContext context, int index) {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
-                  return Card(
+                  return Dismissible(
+                      key: Key('${totalInboxTask[totalNoTimeTaskKey[index]]}'),
+                  onDismissed: (direction) {},
+                  background: Container(color: Colors.grey.shade800,
+                  child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                  Padding(
+                  padding: const EdgeInsets.only(right: 35),
+                  child: Icon(Icons.delete_sweep, color: Colors.red.shade700, size: 35,
+                  ),
+                  ),
+                  ],
+                  ),
+                  ),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                    ),
+                    elevation: 5,
                     color: ColorSets.black,
                     shadowColor: Colors.white,
                     child: Column(
@@ -130,12 +153,13 @@ class Today extends ConsumerWidget {
                         ),
                       ],
                     ),
+                  ),
                   );
                 },
               ),
             ),
             Divider(
-              color: Colors.grey,
+              color: Colors.white,
             ),
             Padding(
               padding: const EdgeInsets.all(18.0),
@@ -151,14 +175,35 @@ class Today extends ConsumerWidget {
               constraints:
                   BoxConstraints(maxWidth: double.infinity, maxHeight: 490),
               color: ColorSets.black,
-              child: ListView.separated(
+              child: ListView.builder(
                 controller: _scrollController,
                 itemCount: totalTodayTask.length,
-                separatorBuilder: (BuildContext context, int index) =>
-                    Divider(),
                 itemBuilder: (BuildContext context, int index) {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
-                  return Card(
+                  return Dismissible(
+                      key: Key('${totalTodayTask[totalTodayTaskKey[index]]}'),
+                  onDismissed: (direction) {},
+                  background: Container(color: Colors.grey.shade800,
+                  child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                  Padding(
+                  padding: const EdgeInsets.only(right: 35),
+                  child: Icon(Icons.delete_sweep, color: Colors.red.shade700, size: 35,
+                  ),
+                  ),
+                  ],
+                  ),
+                  ),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                    ),
+                    elevation: 5,
                     color: ColorSets.black,
                     shadowColor: Colors.white,
                     child: Column(
@@ -170,7 +215,7 @@ class Today extends ConsumerWidget {
                             child:  Icon(totalIconSearch[totalTodayTaskKey[index]],
                                 color: Colors.grey),
                             highlightColor: Colors.deepOrange,
-                            radius: 10.0,
+                            radius: 40.0,
                             borderRadius: BorderRadius.circular(20.0),
                             onTap: () {
                               changeCompletedIcon(ref, '${totalTodayTask[totalTodayTaskKey[index]]}');
@@ -230,6 +275,7 @@ class Today extends ConsumerWidget {
                         ),
                       ],
                     ),
+                  ),
                   );
                 },
               ),

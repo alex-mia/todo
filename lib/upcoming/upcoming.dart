@@ -11,7 +11,9 @@ class Upcoming extends ConsumerWidget {
   List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
 
   void changeCompletedIcon(WidgetRef ref, text) {
-    ref.watch(Task_repository_RiverpodProvider.notifier).changeCompletedIcon(text);
+    ref
+        .watch(Task_repository_RiverpodProvider.notifier)
+        .changeCompletedIcon(text);
   }
 
   @override
@@ -56,79 +58,111 @@ class Upcoming extends ConsumerWidget {
                 itemCount: totalNoTimeTask.length,
                 itemBuilder: (BuildContext context, int index) {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
-                  return Card(
-                    color: ColorSets.black,
-                    shadowColor: Colors.white,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        ListTile(
-                          leading: InkWell(
-                            child: Icon(totalIconSearch[totalNoTimeTaskKey[index]],
-                                color: Colors.grey),
-                            highlightColor: Colors.deepOrange,
-                            radius: 10.0,
-                            borderRadius: BorderRadius.circular(20.0),
-                            onTap: () {
-                              changeCompletedIcon(ref, '${totalInboxTask[totalNoTimeTaskKey[index]]}');
-                            },
+                  return Dismissible(
+                    key: Key('${totalInboxTask[totalNoTimeTaskKey[index]]}'),
+                    onDismissed: (direction) {},
+                    background: Container(
+                      color: Colors.grey.shade800,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 35),
+                            child: Icon(
+                              Icons.delete_sweep,
+                              color: Colors.red.shade700,
+                              size: 35,
+                            ),
                           ),
-                          title: Text(
-                            '${totalInboxTask[totalNoTimeTaskKey[index]]}',
-                            style: TextStyle(color: ColorSets.white),
-                          ),
+                        ],
+                      ),
+                    ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Colors.white,
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 50, bottom: 15),
-                              child: Image.asset(
+                        borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
+                      ),
+                      elevation: 5,
+                      color: ColorSets.black,
+                      shadowColor: Colors.white,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          ListTile(
+                            leading: InkWell(
+                              child: Icon(
+                                  totalIconSearch[totalNoTimeTaskKey[index]],
+                                  color: Colors.grey),
+                              highlightColor: Colors.deepOrange,
+                              radius: 10.0,
+                              borderRadius: BorderRadius.circular(20.0),
+                              onTap: () {
+                                changeCompletedIcon(ref,
+                                    '${totalInboxTask[totalNoTimeTaskKey[index]]}');
+                              },
+                            ),
+                            title: Text(
+                              '${totalInboxTask[totalNoTimeTaskKey[index]]}',
+                              style: TextStyle(color: ColorSets.white),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 50, bottom: 15),
+                                child: Image.asset(
+                                    totalUpcomingTask[
+                                                totalNoTimeTaskKey[index]] !=
+                                            null
+                                        ? 'images/upcoming.png'
+                                        : 'images/time.png',
+                                    width: 20,
+                                    height: 20),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Text(
                                   totalUpcomingTask[
                                               totalNoTimeTaskKey[index]] !=
                                           null
-                                      ? 'images/upcoming.png'
-                                      : 'images/time.png',
-                                  width: 20,
-                                  height: 20),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: Text(
-                                totalUpcomingTask[totalNoTimeTaskKey[index]] !=
-                                        null
-                                    ? '  Upcoming'
-                                    : '  no time',
-                                style: TextStyle(
-                                  color: ColorSets.grey_text,
+                                      ? '  Upcoming'
+                                      : '  no time',
+                                  style: TextStyle(
+                                    color: ColorSets.grey_text,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, bottom: 15),
-                              child: Icon(
-                                  totalIconTask[totalNoTimeTaskKey[index]],
-                                  color: totalColorsTask[
-                                      totalNoTimeTaskKey[index]],
-                                  size: 20),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: Text(
-                                '  ${totalProjectsTask[totalNoTimeTaskKey[index]]}',
-                                style: TextStyle(
-                                    color:
-                                        '${ref.watch(Inbox_RiverpodProvider).text}' !=
-                                                null
-                                            ? ColorSets.white
-                                            : ColorSets.grey_text),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, bottom: 15),
+                                child: Icon(
+                                    totalIconTask[totalNoTimeTaskKey[index]],
+                                    color: totalColorsTask[
+                                        totalNoTimeTaskKey[index]],
+                                    size: 20),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Text(
+                                  '  ${totalProjectsTask[totalNoTimeTaskKey[index]]}',
+                                  style: TextStyle(
+                                      color:
+                                          '${ref.watch(Inbox_RiverpodProvider).text}' !=
+                                                  null
+                                              ? ColorSets.white
+                                              : ColorSets.grey_text),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -156,80 +190,112 @@ class Upcoming extends ConsumerWidget {
                 itemCount: totalUpcomingTask.length,
                 itemBuilder: (BuildContext context, int index) {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
-                  return Card(
-                    color: ColorSets.black,
-                    shadowColor: Colors.white,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        ListTile(
-                          leading: InkWell(
-                            child: Icon(totalIconSearch[totalUpcomingTaskKey[index]],
-                                color: Colors.grey),
-                            highlightColor: Colors.deepOrange,
-                            radius: 40.0,
-                            borderRadius: BorderRadius.circular(20.0),
-                            onTap: () {
-                              changeCompletedIcon(ref, '${totalUpcomingTask[totalUpcomingTaskKey[index]]}');
-                            },
+                  return Dismissible(
+                    key: Key(
+                        '${totalUpcomingTask[totalUpcomingTaskKey[index]]}'),
+                    onDismissed: (direction) {},
+                    background: Container(
+                      color: Colors.grey.shade800,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 35),
+                            child: Icon(
+                              Icons.delete_sweep,
+                              color: Colors.red.shade700,
+                              size: 35,
+                            ),
                           ),
-                          title: Text(
-                            '${totalUpcomingTask[totalUpcomingTaskKey[index]]}',
-                            style: TextStyle(color: ColorSets.white),
-                          ),
+                        ],
+                      ),
+                    ),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Colors.white,
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 50, bottom: 15),
-                              child: Image.asset(
+                        borderRadius:
+                            BorderRadius.circular(20.0), //<-- SEE HERE
+                      ),
+                      elevation: 5,
+                      color: ColorSets.black,
+                      shadowColor: Colors.white,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          ListTile(
+                            leading: InkWell(
+                              child: Icon(
+                                  totalIconSearch[totalUpcomingTaskKey[index]],
+                                  color: Colors.grey),
+                              highlightColor: Colors.deepOrange,
+                              radius: 40.0,
+                              borderRadius: BorderRadius.circular(20.0),
+                              onTap: () {
+                                changeCompletedIcon(ref,
+                                    '${totalUpcomingTask[totalUpcomingTaskKey[index]]}');
+                              },
+                            ),
+                            title: Text(
+                              '${totalUpcomingTask[totalUpcomingTaskKey[index]]}',
+                              style: TextStyle(color: ColorSets.white),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 50, bottom: 15),
+                                child: Image.asset(
+                                    totalUpcomingTask[
+                                                totalUpcomingTaskKey[index]] !=
+                                            null
+                                        ? 'images/upcoming.png'
+                                        : 'images/time.png',
+                                    width: 20,
+                                    height: 20),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Text(
                                   totalUpcomingTask[
                                               totalUpcomingTaskKey[index]] !=
                                           null
-                                      ? 'images/upcoming.png'
-                                      : 'images/time.png',
-                                  width: 20,
-                                  height: 20),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: Text(
-                                totalUpcomingTask[
-                                            totalUpcomingTaskKey[index]] !=
-                                        null
-                                    ? '  Upcoming'
-                                    : '  no time',
-                                style: TextStyle(
-                                  color: ColorSets.grey_text,
+                                      ? '  Upcoming'
+                                      : '  no time',
+                                  style: TextStyle(
+                                    color: ColorSets.grey_text,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, bottom: 15),
-                              child: Icon(
-                                  totalIconTask[totalUpcomingTaskKey[index]],
-                                  color: totalColorsTask[
-                                      totalUpcomingTaskKey[index]],
-                                  size: 20),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: Text(
-                                '  ${totalProjectsTask[totalUpcomingTaskKey[index]]}',
-                                style: TextStyle(
-                                    color:
-                                        '${ref.watch(Inbox_RiverpodProvider).text}' !=
-                                                null
-                                            ? ColorSets.white
-                                            : ColorSets.grey_text),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 20, bottom: 15),
+                                child: Icon(
+                                    totalIconTask[totalUpcomingTaskKey[index]],
+                                    color: totalColorsTask[
+                                        totalUpcomingTaskKey[index]],
+                                    size: 20),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Text(
+                                  '  ${totalProjectsTask[totalUpcomingTaskKey[index]]}',
+                                  style: TextStyle(
+                                      color:
+                                          '${ref.watch(Inbox_RiverpodProvider).text}' !=
+                                                  null
+                                              ? ColorSets.white
+                                              : ColorSets.grey_text),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

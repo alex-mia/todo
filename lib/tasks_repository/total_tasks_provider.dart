@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/projects/add_projects_provider.dart';
@@ -9,6 +11,7 @@ final Task_repository_RiverpodProvider =
     StateNotifierProvider<TaskRepositoryProvider, StateTasks>(
         (ref) => TaskRepositoryProvider());
 
+var totalInboxTaskKey = [];
 var totalInboxTask = Map();
 var totalTodayTask = Map();
 var totalUpcomingTask = Map();
@@ -31,6 +34,7 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
             null,
             null,
             Icons.radio_button_off,
+            [],
           ),
         );
 
@@ -38,6 +42,7 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
 
   void totalTasks(textTask, date, projects, color, icon) {
     {
+      totalInboxTaskKey.add(number);
       totalInboxTask[number] = '$textTask';
       if ('$date' == '$date_now') {
         totalTodayTask[number] = '$textTask';
@@ -77,6 +82,7 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
     print('Icon Project - $totalIconTask');
     print('нет времени - $totalNoTimeTask');
     print('иконки выполено или нет - $totalIconSearch');
+    print('ключи задач -   $totalInboxTaskKey');
   }
 
   int counter = 0;
@@ -99,6 +105,19 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
       },
     );
     print(counter);
-    state = StateTasks(state.textTask, state.inbox, state.today, state.upcoming, state.projects, state.color, state.icon, Icons.radio_button_off);
+    state = StateTasks(state.textTask, state.inbox, state.today, state.upcoming, state.projects, state.color, state.icon, Icons.radio_button_off,  []);
+  }
+
+  void deletTask(String textTask){
+      int number = 1;
+      while (totalInboxTask.length >= number) {
+        if (textTask != null && totalInboxTask[number].contains(textTask) == true) {
+          totalInboxTaskKey.remove(number);
+        }
+        number += 1;
+      }
+    print('текст задачи удаление - $textTask');
+    print('${totalInboxTaskKey}');
+      state = StateTasks(state.textTask, state.inbox, state.today, state.upcoming, state.projects, state.color, state.icon, state.iconChange, totalInboxTaskKey,);
   }
 }

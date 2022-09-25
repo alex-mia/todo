@@ -87,6 +87,13 @@ class SearchTask extends ConsumerWidget {
                 itemBuilder: (BuildContext context, int index) {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                    ),
+                    elevation: 5,
                     color: ColorSets.black,
                     shadowColor: Colors.white,
                     child: Column(

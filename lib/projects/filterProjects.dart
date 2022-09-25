@@ -136,7 +136,7 @@ class FilterProjects extends ConsumerWidget {
             //     },
             //   ),
             // ),
-            Divider(color: Colors.grey,),
+            // Divider(color: Colors.grey,),
             Padding(
               padding: const EdgeInsets.all(18.0),
               child: Text(
@@ -158,6 +158,13 @@ class FilterProjects extends ConsumerWidget {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   if ('${ref.watch(AddProjects_RiverpodProvider).text}' == totalProjectsTask[index+1]) {
                     return Card(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Colors.white,
+                        ),
+                        borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                      ),
+                      elevation: 5,
                       color: ColorSets.black,
                       shadowColor: Colors.white,
                       child: Column(
@@ -166,17 +173,17 @@ class FilterProjects extends ConsumerWidget {
                         children: <Widget>[
                           ListTile(
                             leading: InkWell(
-                              child: Icon(totalIconSearch[index],
+                              child: Icon(totalIconSearch[index+1],
                                   color: Colors.grey),
                               highlightColor: Colors.deepOrange,
                               radius: 10.0,
                               borderRadius: BorderRadius.circular(20.0),
                               onTap: () {
-                                changeCompletedIcon(ref, '${totalInboxTask[index]}');
+                                changeCompletedIcon(ref, '${totalInboxTask[index+1]}');
                               },
                             ),
                             title: Text(
-                              '${totalInboxTask[index]}',
+                              '${totalInboxTask[index+1]}',
                               style: TextStyle(color: ColorSets.white),
                             ),
                           ),

@@ -9,6 +9,7 @@ class StateTasks {
   Color? color;
   Icon? icon;
   IconData? iconChange;
+  List taskKey;
 
 
 
@@ -21,5 +22,6 @@ class StateTasks {
       this.color,
       this.icon,
       this.iconChange,
+      this.taskKey,
   );
 }
