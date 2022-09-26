@@ -7,8 +7,12 @@ import '../tasks_repository/total_tasks_provider.dart';
 class Today extends ConsumerWidget {
   Today({Key? key}) : super(key: key);
   final ScrollController _scrollController = ScrollController();
-  List totalTodayTaskKey = totalTodayTask.keys.toList();
-  List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
+
+  void deletTask(WidgetRef ref, textTask) {
+    ref
+        .watch(Task_repository_RiverpodProvider.notifier)
+        .deletTask(textTask);
+  }
 
   void changeCompletedIcon(WidgetRef ref, text) {
     ref.watch(Task_repository_RiverpodProvider.notifier).changeCompletedIcon(text);
@@ -53,12 +57,13 @@ class Today extends ConsumerWidget {
               color: ColorSets.black,
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount: totalNoTimeTask.length,
+                itemCount: totalNoTimeTaskKey.length,
                 itemBuilder: (BuildContext context, int index) {
+                  ref.watch(Task_repository_RiverpodProvider).taskKey;
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
-                      key: Key('${totalInboxTask[totalNoTimeTaskKey[index]]}'),
-                  onDismissed: (direction) {},
+                    key: UniqueKey(),
+                    onDismissed: (direction) {deletTask(ref, totalNoTimeTaskKey[index]);},
                   background: Container(color: Colors.grey.shade800,
                   child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -177,12 +182,13 @@ class Today extends ConsumerWidget {
               color: ColorSets.black,
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount: totalTodayTask.length,
+                itemCount: totalTodayTaskKey.length,
                 itemBuilder: (BuildContext context, int index) {
+                  ref.watch(Task_repository_RiverpodProvider).taskKey;
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
-                      key: Key('${totalTodayTask[totalTodayTaskKey[index]]}'),
-                  onDismissed: (direction) {},
+                    key: UniqueKey(),
+                    onDismissed: (direction) {deletTask(ref, totalTodayTaskKey[index]);},
                   background: Container(color: Colors.grey.shade800,
                   child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,

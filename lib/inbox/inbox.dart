@@ -7,7 +7,7 @@ import '../tasks_repository/total_tasks_provider.dart';
 class Inbox extends ConsumerWidget {
   Inbox({Key? key}) : super(key: key);
   final ScrollController _scrollController = ScrollController();
-  List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
+  // List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
 
   void changeCompletedIcon(WidgetRef ref, text) {
     ref
@@ -55,29 +55,29 @@ class Inbox extends ConsumerWidget {
             ),
             Container(
               constraints:
-                  BoxConstraints(maxWidth: double.infinity, maxHeight: 100),
+              BoxConstraints(maxWidth: double.infinity, maxHeight: 100),
               color: ColorSets.black,
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount: totalNoTimeTask.length,
+                itemCount: totalNoTimeTaskKey.length,
                 itemBuilder: (BuildContext context, int index) {
                   ref.watch(Task_repository_RiverpodProvider).taskKey;
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, '${totalInboxTask[totalNoTimeTaskKey[index]]}');},
+                    onDismissed: (direction) {deletTask(ref, totalInboxTaskKey[index]);},
                     background: Container(color: Colors.grey.shade800,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 35),
-                          child: Icon(Icons.delete_sweep, color: Colors.red.shade700, size: 35,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 35),
+                            child: Icon(Icons.delete_sweep, color: Colors.red.shade700, size: 35,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
                     ),
                     child: Card(
                       shape: RoundedRectangleBorder(
@@ -85,7 +85,7 @@ class Inbox extends ConsumerWidget {
                           color: Colors.white,
                         ),
                         borderRadius:
-                            BorderRadius.circular(20.0), //<-- SEE HERE
+                        BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
                       elevation: 5,
                       color: ColorSets.black,
@@ -116,11 +116,11 @@ class Inbox extends ConsumerWidget {
                             children: [
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 50, bottom: 15),
+                                const EdgeInsets.only(left: 50, bottom: 15),
                                 child: Image.asset(
                                     totalUpcomingTask[
-                                                totalNoTimeTaskKey[index]] !=
-                                            null
+                                    totalNoTimeTaskKey[index]] !=
+                                        null
                                         ? 'images/upcoming.png'
                                         : 'images/time.png',
                                     width: 20,
@@ -130,8 +130,8 @@ class Inbox extends ConsumerWidget {
                                 padding: const EdgeInsets.only(bottom: 15),
                                 child: Text(
                                   totalUpcomingTask[
-                                              totalNoTimeTaskKey[index]] !=
-                                          null
+                                  totalNoTimeTaskKey[index]] !=
+                                      null
                                       ? '  Upcoming'
                                       : '  no time',
                                   style: TextStyle(
@@ -141,11 +141,11 @@ class Inbox extends ConsumerWidget {
                               ),
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 20, bottom: 15),
+                                const EdgeInsets.only(left: 20, bottom: 15),
                                 child: Icon(
                                     totalIconTask[totalNoTimeTaskKey[index]],
                                     color: totalColorsTask[
-                                        totalNoTimeTaskKey[index]],
+                                    totalNoTimeTaskKey[index]],
                                     size: 20),
                               ),
                               Padding(
@@ -154,10 +154,10 @@ class Inbox extends ConsumerWidget {
                                   '  ${totalProjectsTask[totalNoTimeTaskKey[index]]}',
                                   style: TextStyle(
                                       color:
-                                          '${ref.watch(Inbox_RiverpodProvider).text}' !=
-                                                  null
-                                              ? ColorSets.white
-                                              : ColorSets.grey_text),
+                                      '${ref.watch(Inbox_RiverpodProvider).text}' !=
+                                          null
+                                          ? ColorSets.white
+                                          : ColorSets.grey_text),
                                 ),
                               ),
                             ],
@@ -184,17 +184,17 @@ class Inbox extends ConsumerWidget {
             ),
             Container(
               constraints:
-                  BoxConstraints(maxWidth: double.infinity, maxHeight: 490),
+              BoxConstraints(maxWidth: double.infinity, maxHeight: 490),
               color: ColorSets.black,
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount: totalInboxTask.length,
+                itemCount: totalInboxTaskKey.length,
                 itemBuilder: (BuildContext context, int index) {
-                  ref.watch(Task_repository_RiverpodProvider).iconChange;
                   ref.watch(Task_repository_RiverpodProvider).taskKey;
+                  ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, '${totalInboxTask[index+1]}');},
+                    onDismissed: (direction) {deletTask(ref, totalInboxTaskKey[index]);},
                     background: Container(color: Colors.grey.shade800,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -209,87 +209,87 @@ class Inbox extends ConsumerWidget {
                       ),
                     ),
                     child: Card(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Colors.white,
-                      ),
-                      borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-                    ),
-                    elevation: 5,
-                    color: ColorSets.black,
-                    shadowColor: Colors.white,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        ListTile(
-                          leading: InkWell(
-                            child: Icon(totalIconSearch[index + 1],
-                                color: Colors.grey),
-                            highlightColor: Colors.deepOrange,
-                            radius: 10.0,
-                            borderRadius: BorderRadius.circular(20.0),
-                            onTap: () {
-                              changeCompletedIcon(
-                                  ref, '${totalInboxTask[index + 1]}');
-                            },
-                          ),
-                          title: Text(
-                            '${totalInboxTask[index + 1]}',
-                            style: TextStyle(color: ColorSets.white),
-                          ),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Colors.white,
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 50, bottom: 15),
-                              child: Image.asset(
-                                  totalTodayTask[index + 1] != null
-                                      ? 'images/today.png'
-                                      : totalUpcomingTask[index + 1] != null
-                                          ? 'images/upcoming.png'
-                                          : 'images/time.png',
-                                  width: 20,
-                                  height: 20),
+                        borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                      ),
+                      elevation: 5,
+                      color: ColorSets.black,
+                      shadowColor: Colors.white,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          ListTile(
+                            leading: InkWell(
+                              child: Icon(totalIconSearch[totalInboxTaskKey[index]],
+                                  color: Colors.grey),
+                              highlightColor: Colors.deepOrange,
+                              radius: 10.0,
+                              borderRadius: BorderRadius.circular(20.0),
+                              onTap: () {
+                                changeCompletedIcon(
+                                    ref, '${totalInboxTask[totalInboxTaskKey[index]]}');
+                              },
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: Text(
-                                totalTodayTask[index + 1] != null
-                                    ? '  Today'
-                                    : totalUpcomingTask[index + 1] != null
-                                        ? '  Upcoming'
-                                        : totalNoTimeTask[index + 1] != null
-                                            ? '  no time'
-                                            : 'no time',
-                                style: TextStyle(
-                                  color: ColorSets.grey_text,
+                            title: Text(
+                              '${totalInboxTask[totalInboxTaskKey[index]]}',
+                              style: TextStyle(color: ColorSets.white),
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding:
+                                const EdgeInsets.only(left: 50, bottom: 15),
+                                child: Image.asset(
+                                    totalTodayTask[totalInboxTaskKey[index]] != null
+                                        ? 'images/today.png'
+                                        : totalUpcomingTask[totalInboxTaskKey[index]] != null
+                                        ? 'images/upcoming.png'
+                                        : 'images/time.png',
+                                    width: 20,
+                                    height: 20),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Text(
+                                  totalTodayTask[totalInboxTaskKey[index]] != null
+                                      ? '  Today'
+                                      : totalUpcomingTask[totalInboxTaskKey[index]] != null
+                                      ? '  Upcoming'
+                                      : totalNoTimeTask[totalInboxTaskKey[index]] != null
+                                      ? '  no time'
+                                      : 'no time',
+                                  style: TextStyle(
+                                    color: ColorSets.grey_text,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, bottom: 15),
-                              child: Icon(totalIconTask[index + 1],
-                                  color: totalColorsTask[index + 1], size: 20),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 15),
-                              child: Text(
-                                '  ${totalProjectsTask[index + 1]}',
-                                style: TextStyle(
-                                    color:
-                                        '${ref.watch(Inbox_RiverpodProvider).text}' !=
-                                                null
-                                            ? ColorSets.white
-                                            : ColorSets.grey_text),
+                              Padding(
+                                padding:
+                                const EdgeInsets.only(left: 20, bottom: 15),
+                                child: Icon(totalIconTask[totalInboxTaskKey[index]],
+                                    color: totalColorsTask[totalInboxTaskKey[index]], size: 20),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Text(
+                                  '  ${totalProjectsTask[totalInboxTaskKey[index]]}',
+                                  style: TextStyle(
+                                      color:
+                                      '${ref.watch(Inbox_RiverpodProvider).text}' !=
+                                          null
+                                          ? ColorSets.white
+                                          : ColorSets.grey_text),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

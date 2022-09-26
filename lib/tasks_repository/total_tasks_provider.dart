@@ -8,10 +8,15 @@ import 'package:todo/tasks_repository/state_tasks.dart';
 import '../add_new_todo/add_new_todo.dart';
 
 final Task_repository_RiverpodProvider =
-    StateNotifierProvider<TaskRepositoryProvider, StateTasks>(
+StateNotifierProvider<TaskRepositoryProvider, StateTasks>(
         (ref) => TaskRepositoryProvider());
 
-var totalInboxTaskKey = [];
+List totalInboxTaskKey = totalInboxTask.keys.toList();
+List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
+List totalTodayTaskKey = totalTodayTask.keys.toList();
+List totalUpcomingTaskKey = totalUpcomingTask.keys.toList();
+
+
 var totalInboxTask = Map();
 var totalTodayTask = Map();
 var totalUpcomingTask = Map();
@@ -25,18 +30,18 @@ var totalIconSearch = Map();
 class TaskRepositoryProvider extends StateNotifier<StateTasks> {
   TaskRepositoryProvider()
       : super(
-          StateTasks(
-            '',
-            0,
-            0,
-            0,
-            0,
-            null,
-            null,
-            Icons.radio_button_off,
-            [],
-          ),
-        );
+    StateTasks(
+      '',
+      0,
+      0,
+      0,
+      0,
+      null,
+      null,
+      Icons.radio_button_off,
+      [],
+    ),
+  );
 
   int number = 1;
 
@@ -90,7 +95,7 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
   void changeCompletedIcon(String text) {
     print('Старое - $totalIconSearch');
     totalInboxTask.forEach(
-      (key, value) {
+          (key, value) {
         if (value == text) {
           print('$text');
           counter = key;
@@ -108,16 +113,17 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
     state = StateTasks(state.textTask, state.inbox, state.today, state.upcoming, state.projects, state.color, state.icon, Icons.radio_button_off,  []);
   }
 
-  void deletTask(String textTask){
-      int number = 1;
-      while (totalInboxTask.length >= number) {
-        if (textTask != null && totalInboxTask[number].contains(textTask) == true) {
-          totalInboxTaskKey.remove(number);
-        }
-        number += 1;
+  void deletTask(int taskKey){
+    print('текст задачи удаление - $taskKey');
+      if (taskKey != null) {
+        totalInboxTaskKey.remove(taskKey);
+        totalNoTimeTaskKey.remove(taskKey);
+        totalTodayTaskKey.remove(taskKey);
+        totalUpcomingTaskKey.remove(taskKey);
+
+
       }
-    print('текст задачи удаление - $textTask');
     print('${totalInboxTaskKey}');
-      state = StateTasks(state.textTask, state.inbox, state.today, state.upcoming, state.projects, state.color, state.icon, state.iconChange, totalInboxTaskKey,);
+    state = StateTasks(state.textTask, state.inbox, state.today, state.upcoming, state.projects, state.color, state.icon, state.iconChange, totalInboxTaskKey,);
   }
 }

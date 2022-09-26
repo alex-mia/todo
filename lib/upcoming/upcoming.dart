@@ -7,8 +7,12 @@ import '../tasks_repository/total_tasks_provider.dart';
 class Upcoming extends ConsumerWidget {
   Upcoming({Key? key}) : super(key: key);
   final ScrollController _scrollController = ScrollController();
-  List totalUpcomingTaskKey = totalUpcomingTask.keys.toList();
-  List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
+
+  void deletTask(WidgetRef ref, textTask) {
+    ref
+        .watch(Task_repository_RiverpodProvider.notifier)
+        .deletTask(textTask);
+  }
 
   void changeCompletedIcon(WidgetRef ref, text) {
     ref
@@ -55,12 +59,13 @@ class Upcoming extends ConsumerWidget {
               color: ColorSets.black,
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount: totalNoTimeTask.length,
+                itemCount: totalNoTimeTaskKey.length,
                 itemBuilder: (BuildContext context, int index) {
+                  ref.watch(Task_repository_RiverpodProvider).taskKey;
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
-                    key: Key('${totalInboxTask[totalNoTimeTaskKey[index]]}'),
-                    onDismissed: (direction) {},
+                    key: UniqueKey(),
+                    onDismissed: (direction) {deletTask(ref, totalNoTimeTaskKey[index]);},
                     background: Container(
                       color: Colors.grey.shade800,
                       child: Row(
@@ -187,13 +192,13 @@ class Upcoming extends ConsumerWidget {
               color: ColorSets.black,
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount: totalUpcomingTask.length,
+                itemCount: totalUpcomingTaskKey.length,
                 itemBuilder: (BuildContext context, int index) {
+                  ref.watch(Task_repository_RiverpodProvider).taskKey;
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
-                    key: Key(
-                        '${totalUpcomingTask[totalUpcomingTaskKey[index]]}'),
-                    onDismissed: (direction) {},
+                    key: UniqueKey(),
+                    onDismissed: (direction) {deletTask(ref, totalUpcomingTaskKey[index]);},
                     background: Container(
                       color: Colors.grey.shade800,
                       child: Row(
