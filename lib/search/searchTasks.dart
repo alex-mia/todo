@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/search/search_provider.dart';
 import '../add_new_todo/inbox_provider.dart';
 import '../colors.dart';
-import '../projects/add_projects_provider.dart';
 import '../tasks_repository/total_tasks_provider.dart';
 
 class SearchTask extends ConsumerWidget {
@@ -85,6 +84,7 @@ class SearchTask extends ConsumerWidget {
                     ? 0
                     : totalSearchTask.length,
                 itemBuilder: (BuildContext context, int index) {
+                  ref.watch(Task_repository_RiverpodProvider).taskKey;
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Card(
                     shape: RoundedRectangleBorder(

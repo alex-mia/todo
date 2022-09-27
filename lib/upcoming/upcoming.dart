@@ -65,7 +65,7 @@ class Upcoming extends ConsumerWidget {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, totalNoTimeTaskKey[index], '  ${totalProjectsTask[totalNoTimeTaskKey[index]]}');},
+                    onDismissed: (direction) {deletTask(ref, totalNoTimeTaskKey[index], '${totalProjectsTask[totalNoTimeTaskKey[index]]}');},
                     background: Container(
                       color: Colors.grey.shade800,
                       child: Row(
@@ -198,7 +198,7 @@ class Upcoming extends ConsumerWidget {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, totalUpcomingTaskKey[index], '  ${totalProjectsTask[totalUpcomingTaskKey[index]]}');},
+                    onDismissed: (direction) {deletTask(ref, totalUpcomingTaskKey[index], '${totalProjectsTask[totalUpcomingTaskKey[index]]}');},
                     background: Container(
                       color: Colors.grey.shade800,
                       child: Row(

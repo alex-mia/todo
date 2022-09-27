@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/tasks_repository/state_tasks.dart';
 
 import '../add_new_todo/add_new_todo.dart';
+import '../search/search_provider.dart';
 
 final Task_repository_RiverpodProvider =
 StateNotifierProvider<TaskRepositoryProvider, StateTasks>(
@@ -128,6 +129,7 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
         totalTodayTaskKey.remove(taskKey);
         totalUpcomingTaskKey.remove(taskKey);
         totalProjectsTaskKey.remove(taskKey);
+        totalSearchTask.remove(taskKey);
       }
     int projectsKey = totalCounterProjectsTask[projects];
     projectsKey = projectsKey - 1;

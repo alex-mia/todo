@@ -13,11 +13,13 @@ class Search_Provider extends StateNotifier<int> {
   void validDateSearch(String? text) {
     totalSearchTask = [];
     int number = 1;
-    while (totalInboxTask.length >= number) {
-      if (text != null && totalInboxTask[number].contains(text) == true) {
+    int counter = 0;
+    while (totalInboxTaskKey.length >= number) {
+      if (text != null && totalInboxTask[totalInboxTaskKey[counter]].contains(text) == true) {
         totalSearchTask.add(number);
       }
       number += 1;
+      counter += 1;
     }
     state = totalSearchTask.length;
   }
