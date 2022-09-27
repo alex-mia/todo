@@ -7,17 +7,16 @@ import '../tasks_repository/total_tasks_provider.dart';
 class Inbox extends ConsumerWidget {
   Inbox({Key? key}) : super(key: key);
   final ScrollController _scrollController = ScrollController();
-  // List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
 
   void changeCompletedIcon(WidgetRef ref, text) {
     ref
         .watch(Task_repository_RiverpodProvider.notifier)
         .changeCompletedIcon(text);
   }
-  void deletTask(WidgetRef ref, textTask) {
+  void deletTask(WidgetRef ref, textTask, projects) {
     ref
         .watch(Task_repository_RiverpodProvider.notifier)
-        .deletTask(textTask);
+        .deletTask(textTask, projects);
   }
 
   @override
@@ -65,7 +64,7 @@ class Inbox extends ConsumerWidget {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, totalInboxTaskKey[index]);},
+                    onDismissed: (direction) {deletTask(ref, totalInboxTaskKey[index], '${totalProjectsTask[totalNoTimeTaskKey[index]]}');},
                     background: Container(color: Colors.grey.shade800,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -194,7 +193,7 @@ class Inbox extends ConsumerWidget {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, totalInboxTaskKey[index]);},
+                    onDismissed: (direction) {deletTask(ref, totalInboxTaskKey[index], '${totalProjectsTask[totalInboxTaskKey[index]]}');},
                     background: Container(color: Colors.grey.shade800,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

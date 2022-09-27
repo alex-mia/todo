@@ -1,8 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo/projects/add_projects_provider.dart';
 import 'package:todo/tasks_repository/state_tasks.dart';
 
 import '../add_new_todo/add_new_todo.dart';
@@ -11,11 +8,11 @@ final Task_repository_RiverpodProvider =
 StateNotifierProvider<TaskRepositoryProvider, StateTasks>(
         (ref) => TaskRepositoryProvider());
 
-List totalInboxTaskKey = totalInboxTask.keys.toList();
-List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
-List totalTodayTaskKey = totalTodayTask.keys.toList();
-List totalUpcomingTaskKey = totalUpcomingTask.keys.toList();
-
+List totalInboxTaskKey = [];
+List totalNoTimeTaskKey = [];
+List totalTodayTaskKey = [];
+List totalUpcomingTaskKey = [];
+List totalProjectsTaskKey = [];
 
 var totalInboxTask = Map();
 var totalTodayTask = Map();
@@ -52,20 +49,24 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
       if ('$date' == '$date_now') {
         totalTodayTask[number] = '$textTask';
         totalIconSearch[number] = Icons.radio_button_off;
+        totalTodayTaskKey.add(number);
       }
       if (date != date_now && date != null) {
         totalUpcomingTask[number] = '$textTask';
         totalIconSearch[number] = Icons.radio_button_off;
+        totalUpcomingTaskKey.add(number);
       }
       if (date == null) {
         totalNoTimeTask[number] = '$textTask';
         totalIconSearch[number] = Icons.radio_button_off;
+        totalNoTimeTaskKey.add(number);
       }
     }
     if ('$projects' != null) {
       totalProjectsTask[number] = projects;
       totalColorsTask[number] = color;
       totalIconTask[number] = icon;
+      totalProjectsTaskKey.add(number);
     }
     if ('$projects' != null && totalCounterProjectsTask[projects] == null) {
       totalCounterProjectsTask[projects] = 1;
@@ -74,10 +75,12 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
     }
     number += 1;
 
-    state.inbox = totalInboxTask.length;
-    state.today = totalTodayTask.length;
-    state.upcoming = totalUpcomingTask.length;
-    state.projects = totalProjectsTask.length;
+    int inbox = totalInboxTaskKey.length;
+    int today = totalTodayTaskKey.length;
+    int upcoming = totalUpcomingTaskKey.length;
+    int project = totalProjectsTaskKey.length;
+    state = StateTasks(state.textTask, inbox, today, upcoming, project, state.color, state.icon, Icons.radio_button_off,  totalInboxTaskKey);
+
     print('всего - $totalInboxTask');
     print('сегодня -$totalTodayTask');
     print('в планах - $totalUpcomingTask');
@@ -87,7 +90,11 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
     print('Icon Project - $totalIconTask');
     print('нет времени - $totalNoTimeTask');
     print('иконки выполено или нет - $totalIconSearch');
-    print('ключи задач -   $totalInboxTaskKey');
+    print('ключи задач всего -   $totalInboxTaskKey');
+    print('ключи задач нет времени -   $totalNoTimeTaskKey');
+    print('ключи задач сегодня -   $totalTodayTaskKey');
+    print('ключи задач будущее -   $totalUpcomingTaskKey');
+    print('ключи задач проектов -   $totalProjectsTaskKey');
   }
 
   int counter = 0;
@@ -110,20 +117,28 @@ class TaskRepositoryProvider extends StateNotifier<StateTasks> {
       },
     );
     print(counter);
-    state = StateTasks(state.textTask, state.inbox, state.today, state.upcoming, state.projects, state.color, state.icon, Icons.radio_button_off,  []);
+    state = StateTasks(state.textTask, state.inbox, state.today, state.upcoming, state.projects, state.color, state.icon, Icons.radio_button_off,  totalInboxTaskKey);
   }
 
-  void deletTask(int taskKey){
+  void deletTask(int taskKey, String projects){
     print('текст задачи удаление - $taskKey');
       if (taskKey != null) {
         totalInboxTaskKey.remove(taskKey);
         totalNoTimeTaskKey.remove(taskKey);
         totalTodayTaskKey.remove(taskKey);
         totalUpcomingTaskKey.remove(taskKey);
-
-
+        totalProjectsTaskKey.remove(taskKey);
       }
+    int projectsKey = totalCounterProjectsTask[projects];
+    projectsKey = projectsKey - 1;
+    print('новое значение количество  $projectsKey');
+      print('Текст что удалять с проекта $projects');
+    totalCounterProjectsTask[projects] =  projectsKey;
     print('${totalInboxTaskKey}');
-    state = StateTasks(state.textTask, state.inbox, state.today, state.upcoming, state.projects, state.color, state.icon, state.iconChange, totalInboxTaskKey,);
+    int inbox = totalInboxTaskKey.length;
+    int today = totalTodayTaskKey.length;
+    int upcoming = totalUpcomingTaskKey.length;
+    int project = totalProjectsTaskKey.length;
+    state = StateTasks(state.textTask, inbox, today, upcoming, project, state.color, state.icon, Icons.radio_button_off,  totalInboxTaskKey);
   }
 }

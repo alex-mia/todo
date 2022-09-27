@@ -8,10 +8,10 @@ class Upcoming extends ConsumerWidget {
   Upcoming({Key? key}) : super(key: key);
   final ScrollController _scrollController = ScrollController();
 
-  void deletTask(WidgetRef ref, textTask) {
+  void deletTask(WidgetRef ref, textTask, projects) {
     ref
         .watch(Task_repository_RiverpodProvider.notifier)
-        .deletTask(textTask);
+        .deletTask(textTask, projects);
   }
 
   void changeCompletedIcon(WidgetRef ref, text) {
@@ -65,7 +65,7 @@ class Upcoming extends ConsumerWidget {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, totalNoTimeTaskKey[index]);},
+                    onDismissed: (direction) {deletTask(ref, totalNoTimeTaskKey[index], '  ${totalProjectsTask[totalNoTimeTaskKey[index]]}');},
                     background: Container(
                       color: Colors.grey.shade800,
                       child: Row(
@@ -198,7 +198,7 @@ class Upcoming extends ConsumerWidget {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, totalUpcomingTaskKey[index]);},
+                    onDismissed: (direction) {deletTask(ref, totalUpcomingTaskKey[index], '  ${totalProjectsTask[totalUpcomingTaskKey[index]]}');},
                     background: Container(
                       color: Colors.grey.shade800,
                       child: Row(

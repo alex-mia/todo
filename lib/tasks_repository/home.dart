@@ -259,7 +259,7 @@ class Home extends ConsumerWidget {
               Container(
                 constraints: BoxConstraints(maxWidth: double.infinity, maxHeight: 300),
                 decoration: BoxDecoration(
-                  color: ColorSets.gray,
+                  color: ColorSets.black,
                   borderRadius: BorderRadius.all(
                     Radius.circular(
                       (20),

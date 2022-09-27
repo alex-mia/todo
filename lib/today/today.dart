@@ -8,10 +8,10 @@ class Today extends ConsumerWidget {
   Today({Key? key}) : super(key: key);
   final ScrollController _scrollController = ScrollController();
 
-  void deletTask(WidgetRef ref, textTask) {
+  void deletTask(WidgetRef ref, textTask, projects) {
     ref
         .watch(Task_repository_RiverpodProvider.notifier)
-        .deletTask(textTask);
+        .deletTask(textTask, projects);
   }
 
   void changeCompletedIcon(WidgetRef ref, text) {
@@ -63,7 +63,7 @@ class Today extends ConsumerWidget {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, totalNoTimeTaskKey[index]);},
+                    onDismissed: (direction) {deletTask(ref, totalNoTimeTaskKey[index], '  ${totalProjectsTask[totalNoTimeTaskKey[index]]}');},
                   background: Container(color: Colors.grey.shade800,
                   child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -188,7 +188,7 @@ class Today extends ConsumerWidget {
                   ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, totalTodayTaskKey[index]);},
+                    onDismissed: (direction) {deletTask(ref, totalTodayTaskKey[index], '  ${totalProjectsTask[totalTodayTaskKey[index]]}');},
                   background: Container(color: Colors.grey.shade800,
                   child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
