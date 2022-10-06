@@ -3,8 +3,8 @@ import 'package:todo/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/autorization/email_provider.dart';
 import 'package:todo/autorization/password_provider.dart';
+import 'package:todo/home.dart';
 
-import '../tasks_repository/home.dart';
 
 
 

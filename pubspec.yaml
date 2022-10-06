@@ -29,6 +29,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  sqflite: <3.0.0
+  flutter_riverpod: ^1.0.4
+  path_provider: ^2.0.2
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -38,7 +41,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_riverpod: ^1.0.4
+
+
 
 
   # The "flutter_lints" package below contains a set of recommended lints to

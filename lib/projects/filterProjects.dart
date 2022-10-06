@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:todo/add_new_todo/add_new_task.dart';
+import 'package:todo/add_new_todo/data_task/task_repository.dart';
 import 'package:todo/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../add_new_todo/inbox_provider.dart';
-import '../tasks_repository/total_tasks_provider.dart';
-import 'add_projects_provider.dart';
+import 'package:todo/home.dart';
+import 'package:todo/projects/data_project/task_projects_filter_repository.dart';
+
+
 
 class FilterProjects extends ConsumerWidget {
   FilterProjects({Key? key}) : super(key: key);
@@ -11,8 +14,8 @@ class FilterProjects extends ConsumerWidget {
   // List totalTodayTaskKey = totalTodayTask.keys.toList();
   // List totalNoTimeTaskKey = totalNoTimeTask.keys.toList();
 
-  void changeCompletedIcon(WidgetRef ref, text) {
-    ref.watch(Task_repository_RiverpodProvider.notifier).changeCompletedIcon(text);
+  void updateIconChange(WidgetRef ref, task, iconChange) {
+    ref.watch(DataTasksRiverpodProvider.notifier).updateTask(task, iconChange);
   }
 
   @override
@@ -20,7 +23,7 @@ class FilterProjects extends ConsumerWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text('${ref.watch(AddProjects_RiverpodProvider).text}'),
+        title: Text(projects),
         backgroundColor: ColorSets.yellow,
         leading: IconButton(
             icon: Icon(
@@ -54,17 +57,15 @@ class FilterProjects extends ConsumerWidget {
               color: ColorSets.black,
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount: totalProjectsTaskKey.length,
+                itemCount: ref.watch(DataTasksFilterProjectRiverpodProvider).length,
                 itemBuilder: (BuildContext context, int index) {
-                  ref.watch(Task_repository_RiverpodProvider).taskKey;
-                  ref.watch(Task_repository_RiverpodProvider).iconChange;
-                  if ('${ref.watch(AddProjects_RiverpodProvider).text}' == totalProjectsTask[totalProjectsTaskKey[index]]) {
-                    return Card(
+                    return  Card(
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
                           color: Colors.white,
                         ),
-                        borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
+                        borderRadius:
+                        BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
                       elevation: 5,
                       color: ColorSets.black,
@@ -75,62 +76,86 @@ class FilterProjects extends ConsumerWidget {
                         children: <Widget>[
                           ListTile(
                             leading: InkWell(
-                              child: Icon(totalIconSearch[totalProjectsTaskKey[index]],
+                              child: Icon(
+                                  ref.watch(DataTasksFilterProjectRiverpodProvider)[index].iconChange ==
+                                      0
+                                      ? Icons.circle_outlined
+                                      : Icons.check_circle,
                                   color: Colors.grey),
                               highlightColor: Colors.deepOrange,
                               radius: 10.0,
                               borderRadius: BorderRadius.circular(20.0),
                               onTap: () {
-                                changeCompletedIcon(ref, '${totalInboxTask[totalProjectsTaskKey[index]]}');
+                                updateIconChange(
+                                    ref,
+                                    ref.watch(
+                                        DataTasksFilterProjectRiverpodProvider)[index],
+                                    ref
+                                        .watch(DataTasksFilterProjectRiverpodProvider)[
+                                    index]
+                                        .iconChange);
+                                ref
+                                    .watch(
+                                    DataTasksFilterProjectRiverpodProvider.notifier).getTasksFilterProject;
+                                print(
+                                    'Инсдекс - кнопки задачи ${ref.watch(DataTasksRiverpodProvider)[index].iconChange}');
                               },
                             ),
                             title: Text(
-                              '${totalInboxTask[totalProjectsTaskKey[index]]}',
+                              '${ref.watch(DataTasksFilterProjectRiverpodProvider)[index].textTask}',
                               style: TextStyle(color: ColorSets.white),
                             ),
                           ),
                           Row(
                             children: [
                               Padding(
-                                padding:
-                                const EdgeInsets.only(left: 50, bottom: 15),
-                                child: Image.asset(
-                                    totalTodayTask[totalProjectsTaskKey[index]] != null
-                                        ? 'images/today.png'
-                                        : totalUpcomingTask[totalProjectsTaskKey[index]] != null
-                                        ? 'images/upcoming.png'
-                                        : 'images/time.png',
+                                padding: const EdgeInsets.only(
+                                    left: 50, bottom: 15),
+                                child: Image.asset(ref.watch(DataTasksFilterProjectRiverpodProvider)[index].date != '$date_now'.hashCode
+                                    && ref.watch(DataTasksFilterProjectRiverpodProvider)[index].date
+                                        != 987444055
+                                    ? 'images/upcoming.png'
+                                    : ref.watch(DataTasksFilterProjectRiverpodProvider)[index].date ==
+                                    '$date_now'.hashCode && ref.watch(DataTasksFilterProjectRiverpodProvider)[index].date !=
+                                    987444055
+                                    ? 'images/today.png'
+                                    : 'images/time.png',
                                     width: 20,
                                     height: 20),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 15),
-                                child: Text(
-                                  totalTodayTask[totalProjectsTaskKey[index]] != null
-                                      ? '  Today'
-                                      : totalUpcomingTask[totalProjectsTaskKey[index]] != null
-                                      ? '  Upcoming'
-                                      : totalNoTimeTask[totalProjectsTaskKey[index]] != null
-                                      ? '  no time'
-                                      : 'no time',
+                                child: Text(ref.watch(DataTasksFilterProjectRiverpodProvider)[index].date != '$date_now'.hashCode
+                                    && ref.watch(DataTasksFilterProjectRiverpodProvider)[index].date
+                                        != 987444055
+                                    ? '  Upcoming'
+                                    : ref.watch(DataTasksFilterProjectRiverpodProvider)[index].date ==
+                                    '$date_now'.hashCode && ref.watch(DataTasksFilterProjectRiverpodProvider)[index].date !=
+                                    987444055
+                                    ? '  Today'
+                                    : '  No time',
                                   style: TextStyle(
-                                    color: ColorSets.grey_text,
+                                    color: ColorSets.white,
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding:
-                                const EdgeInsets.only(left: 20, bottom: 15),
-                                child: Icon(totalIconTask[totalProjectsTaskKey[index]],
-                                    color: totalColorsTask[totalProjectsTaskKey[index]], size: 20),
+                                padding: const EdgeInsets.only(
+                                    left: 20, bottom: 15),
+                                child: Icon(Icons.circle,
+                                    color: Color(
+                                      int.parse(
+                                          "${ref.watch(DataTasksFilterProjectRiverpodProvider)[index].color!.replaceAll('Color(', '').replaceAll(')', '')}"),
+                                    ),
+                                    size: 20),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 15),
                                 child: Text(
-                                  '  ${totalProjectsTask[totalProjectsTaskKey[index]]}',
+                                  '  ${ref.watch(DataTasksFilterProjectRiverpodProvider)[index].project}',
                                   style: TextStyle(
                                       color:
-                                      '${ref.watch(Inbox_RiverpodProvider).text}' !=
+                                      '${ref.watch(DataTasksFilterProjectRiverpodProvider)[index].project}' !=
                                           null
                                           ? ColorSets.white
                                           : ColorSets.grey_text),
@@ -141,14 +166,7 @@ class FilterProjects extends ConsumerWidget {
                         ],
                       ),
                     );
-                  } else{
-                    return Card(
-                      color: ColorSets.black,
-                      shadowColor: Colors.white,
-                      child: null,
-                    );
                   }
-                },
               ),
             ),
           ],

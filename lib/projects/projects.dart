@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo/projects/add_projects_provider.dart';
+import 'package:todo/projects/data_project/project_repository.dart';
 
 
 class Projects extends ConsumerWidget {
@@ -11,6 +11,7 @@ class Projects extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(DataProjectsRiverpodProvider.notifier).getProjects;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -25,47 +26,55 @@ class Projects extends ConsumerWidget {
               Navigator.pushNamed(context, '/home');
             }),
         actions: [
-          IconButton(onPressed: (){
-            Navigator.pushNamed(context, '/add_projects');
-          }, icon: Icon(Icons.add))
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/add_projects');
+              },
+              icon: Icon(Icons.add))
         ],
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
+      body:
+      Container(
+        constraints:
+        BoxConstraints(maxWidth: double.infinity, maxHeight: double.infinity),
         color: ColorSets.black,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 25, right: 25, top: 25),
-          child: ListView.separated(
-            controller: _scrollController,
-            itemCount: allProjects.length,
-            separatorBuilder: (BuildContext context, int index) => Divider(height: 3, color: Colors.white,),
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                elevation: 6,
-                margin: EdgeInsets.zero,
-                color: ColorSets.gray,
-                shadowColor: Colors.white,
-                child: Column(
-                  children: <Widget>[
-                    ListTile(
-                      leading: Icon(Icons.circle_sharp,
-                          size: 14,
-                          color: colorProjects[index+1]),
-                      title: Text(
-                        '${allProjects[index+1]}',
-                        style: TextStyle(color: ColorSets.white),
-                      ),
-                    ),
-                  ],
+        child: ListView.builder(
+          controller: _scrollController,
+          itemCount: ref.watch(DataProjectsRiverpodProvider).length,
+          itemBuilder: (BuildContext context, int index) {
+            return Card(
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Colors.white,
                 ),
+                borderRadius:
+                BorderRadius.circular(20.0), //<-- SEE HERE
+              ),
+              elevation: 5,
+              color: ColorSets.black,
+              shadowColor: Colors.white,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  ListTile(
+                    leading: Icon(Icons.circle_rounded,
+                      size: 14,
+                      color: Color(int.parse("${ref.watch(DataProjectsRiverpodProvider)[index].color!.replaceAll('Color(', '').replaceAll(')', '')}"),),),
+                    title: Text(
+                      '${ref.watch(DataProjectsRiverpodProvider)[index].text}',
+                      style: TextStyle(color: ColorSets.white),
+                    ),
+                      ),
+                    ],
+                  ),
               );
-            },
-          ),
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {Navigator.pushNamed(context, '/add');
+        onPressed: () {
+          Navigator.pushNamed(context, '/add');
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

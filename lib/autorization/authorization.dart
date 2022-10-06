@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/autorization/signIn.dart';
 import 'package:todo/autorization/signUp.dart';
-
+import 'package:todo/home.dart';
 import '../colors.dart';
-import '../tasks_repository/home.dart';
 
-class Authorization extends StatelessWidget {
+
+class Authorization extends ConsumerWidget {
   const Authorization({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final ScrollController _scrollController = ScrollController();
 
     return Scaffold(
@@ -98,7 +99,8 @@ class Authorization extends StatelessWidget {
                         onTap: () {Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Home()));},
+                                builder: (context) => Home()));
+                          },
                         child: Container(
                           decoration: BoxDecoration(
                             color: ColorSets.gray,
@@ -127,7 +129,8 @@ class Authorization extends StatelessWidget {
                         onTap: () {Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Home()));},
+                                builder: (context) => Home()));
+                          },
                         child: Container(
                           decoration: BoxDecoration(
                             color: ColorSets.gray,
@@ -156,7 +159,8 @@ class Authorization extends StatelessWidget {
                         onTap: () {Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Home()));},
+                                builder: (context) => Home()));
+                          },
                         child: Container(
                           decoration: BoxDecoration(
                             color: ColorSets.gray,

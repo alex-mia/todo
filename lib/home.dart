@@ -1,29 +1,35 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todo/add_new_todo/add_new_task.dart';
+import 'package:todo/add_new_todo/data_task/task_overdue_repository.dart';
+import 'package:todo/add_new_todo/data_task/task_repository.dart';
+import 'package:todo/add_new_todo/data_task/task_today_repository.dart';
+import 'package:todo/add_new_todo/data_task/task_upcoming_repository.dart';
 import 'package:todo/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo/tasks_repository/total_tasks_provider.dart';
-import '../projects/add_projects_provider.dart';
-import 'home.dart';
+import 'package:todo/projects/data_project/project_repository.dart';
+import 'package:todo/projects/data_project/task_projects_filter_repository.dart';
 
-class Home_add extends ConsumerWidget {
-  const Home_add({Key? key}) : super(key: key);
+String projects = '';
 
+class Home extends ConsumerWidget {
+   Home({Key? key}) : super(key: key);
 
-  void setProjects(WidgetRef ref, text) {
-    ref.read(AddProjects_RiverpodProvider.notifier).setProjects(text);
-  }
+  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(DataTasksOverdueRiverpodProvider);
+    ref.watch(DataTasksTodayRiverpodProvider);
+    ref.watch(DataTasksFilterProjectRiverpodProvider);
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/search');
+            },
           ),
         ],
       ),
@@ -89,7 +95,8 @@ class Home_add extends ConsumerWidget {
                   height: 40,
                 ),
                 GestureDetector(
-                  onTap: () {Navigator.pushNamed(context, '/projects');
+                  onTap: () {
+                    Navigator.pushNamed(context, '/projects');
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -158,7 +165,7 @@ class Home_add extends ConsumerWidget {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.only(right: 16, left: 16, top: 5),
+        padding: EdgeInsets.only(right: 16, left: 16, top: 32),
         height: double.infinity,
         width: double.infinity,
         color: ColorSets.black,
@@ -166,42 +173,11 @@ class Home_add extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Container(
-
-                  height: 30,
-                  width: 320,
-                  decoration: BoxDecoration(
-                    color: ColorSets.white,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        child: Icon(
-                          Icons.add_task,
-                          color: Colors.green,
-                        ),
-                      ),
-                      Flexible(
-                        child: Text(
-                          'Task added in ${ref.watch(AddProjects_RiverpodProvider).text}',
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      IconButton(
-                        autofocus: true,
-                          icon: const Icon(Icons.close_outlined, color: Colors.black, size: 17, ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/home');
-                          }),
-                    ],
-                  ),
-                ),
-              ),
+          // Text('Task added in ',
+          //   overflow: TextOverflow.ellipsis,
+          // ),
               Padding(
-                padding: const EdgeInsets.only(left: 16, bottom: 16, top: 3),
+                padding: const EdgeInsets.only(left: 16, bottom: 16),
                 child: Text(
                   'Hello Alex! 👋',
                   style: TextStyle(
@@ -224,15 +200,19 @@ class Home_add extends ConsumerWidget {
                 child: ListView(
                   children: <Widget>[
                     ListTile(
-                      onTap: () {Navigator.pushNamed(context, '/inbox');},
+                      onTap: () {
+              Navigator.pushNamed(context, '/inbox');
+              ref.watch(DataTasksRiverpodProvider.notifier).getTasks;
+              ref.watch(DataTasksOverdueRiverpodProvider.notifier).getTasksOverdue;
+              },
                       leading: Image.asset('images/inbox.png'),
                       title: Text(
                         'Inbox',
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        ('${ref.watch(Task_repository_RiverpodProvider).inbox}'),
-                        style: TextStyle(color: ColorSets.grey_text),
+                        ('${ref.watch(DataTasksRiverpodProvider).length}'),
+                        style: TextStyle(color: ColorSets.white),
                       ),
                     ),
                     Padding(
@@ -240,15 +220,19 @@ class Home_add extends ConsumerWidget {
                       child: Divider(color: ColorSets.white),
                     ),
                     ListTile(
-                      onTap: () {Navigator.pushNamed(context, '/today');},
+                      onTap: () {
+                        Navigator.pushNamed(context, '/today');
+                        ref.watch(DataTasksOverdueRiverpodProvider.notifier).getTasksOverdue;
+                        ref.watch(DataTasksTodayRiverpodProvider.notifier).getTasksToday;
+                      },
                       leading: Image.asset('images/today.png'),
                       title: Text(
                         'Today',
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        ('${ref.watch(Task_repository_RiverpodProvider).today}'),
-                        style: TextStyle(color: ColorSets.grey_text),
+                        ('${ref.watch(DataTasksTodayRiverpodProvider).length}'),
+                        style: TextStyle(color: ColorSets.white),
                       ),
                     ),
                     Padding(
@@ -256,15 +240,19 @@ class Home_add extends ConsumerWidget {
                       child: Divider(color: ColorSets.white),
                     ),
                     ListTile(
-                      onTap: () {Navigator.pushNamed(context, '/upcoming');},
+                      onTap: () {
+                        Navigator.pushNamed(context, '/upcoming');
+                        ref.watch(DataTasksOverdueRiverpodProvider.notifier).getTasksOverdue;
+                        ref.watch(DataTasksUpcomingRiverpodProvider.notifier).getTasksUpcoming;
+                      },
                       leading: Image.asset('images/upcoming.png'),
                       title: Text(
                         'Upcoming',
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        ('${ref.watch(Task_repository_RiverpodProvider).upcoming}'),
-                        style: TextStyle(color: ColorSets.grey_text),
+                        ('${ref.watch(DataTasksUpcomingRiverpodProvider).length}'),
+                        style: TextStyle(color: ColorSets.white),
                       ),
                     ),
                   ],
@@ -285,61 +273,79 @@ class Home_add extends ConsumerWidget {
                 ),
               ),
               Container(
-                constraints: BoxConstraints(maxWidth: double.infinity, maxHeight: 300),
                 decoration: BoxDecoration(
-                  color: ColorSets.gray,
                   borderRadius: BorderRadius.all(
                     Radius.circular(
                       (20),
                     ),
                   ),
+                  color:  ColorSets.black,
                 ),
-                child: ListView.builder(
-                  itemCount: allProjects.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      margin: EdgeInsets.all(1),
-                      color: ColorSets.gray,
-                      shadowColor: Colors.white,
-                      child: Column(
-                        children: <Widget>[
-                          ListTile(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/filters_projects');
-                              setProjects(ref, allProjects[index + 1]);
-                            },
-                            trailing: Text(
-                            '${totalCounterProjectsTask[allProjects[index + 1]] == null ? '0' : totalCounterProjectsTask[allProjects[index + 1]]}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                            leading: Icon(Icons.circle_sharp,
-                                size: 14,
-                                color: colorProjects[index+1]),
-                            title: Text(
-                              '${allProjects[index+1]}',
-                              style: TextStyle(color: ColorSets.white),
-                            ),
-                          ),
-                        ],
+                height: 280,
+                width: 490,
+                // color: ColorSets.black,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.separated(
+                      controller: _scrollController,
+                      itemCount: ref.watch(DataProjectsRiverpodProvider).length,
+                      separatorBuilder: (BuildContext context, int index) => Divider(
+                        height: 3,
+                        color: Colors.white,
                       ),
-                    );
-                  },
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          elevation: 6,
+                          margin: EdgeInsets.zero,
+                          color: ColorSets.gray,
+                          shadowColor: Colors.white,
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                onTap: () {
+                                  projects = '${ref.watch(DataProjectsRiverpodProvider)[index].text}';
+                                  ref.watch(DataTasksFilterProjectRiverpodProvider.notifier).getTasksFilterProject;
+                                  Navigator.pushNamed(context, '/filters_projects');
+                                },
+                                leading: Icon(Icons.circle_rounded,
+                                  size: 14,
+                                  color: Color(int.parse("${ref.watch(DataProjectsRiverpodProvider)[index].color!.replaceAll('Color(', '').replaceAll(')', '')}"),),),
+                                title: Text(
+                                  '${ref.watch(DataProjectsRiverpodProvider)[index].text}',
+                                  style: TextStyle(color: ColorSets.white),
+                                ),
+                          trailing: Text(
+                            ('${ref.watch(DataTasksFilterProjectRiverpodProvider).length}'),
+                            style: TextStyle(color: ColorSets.white),
+                              ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 5,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  FloatingActionButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/add');
-                    },
-                    tooltip: 'Increment',
-                    child: const Icon(Icons.add),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.only(bottom: 85),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/add');
+                      },
+                      tooltip: 'Increment',
+                      child: const Icon(Icons.add),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

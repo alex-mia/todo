@@ -1,27 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:todo/add_new_todo/add_new_task.dart';
+import 'package:todo/add_new_todo/data_task/task_overdue_repository.dart';
+import 'package:todo/add_new_todo/data_task/task_repository.dart';
+import 'package:todo/add_new_todo/data_task/task_today_repository.dart';
+import 'package:todo/add_new_todo/data_task/task_upcoming_repository.dart';
 import 'package:todo/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../add_new_todo/inbox_provider.dart';
-import '../tasks_repository/total_tasks_provider.dart';
 
 class Upcoming extends ConsumerWidget {
   Upcoming({Key? key}) : super(key: key);
+
   final ScrollController _scrollController = ScrollController();
 
-  void deletTask(WidgetRef ref, textTask, projects) {
-    ref
-        .watch(Task_repository_RiverpodProvider.notifier)
-        .deletTask(textTask, projects);
+  void getTasks(WidgetRef ref) {
+    ref.watch(DataTasksRiverpodProvider.notifier).getTasks;
   }
 
-  void changeCompletedIcon(WidgetRef ref, text) {
-    ref
-        .watch(Task_repository_RiverpodProvider.notifier)
-        .changeCompletedIcon(text);
+  void getOverdueTasks(WidgetRef ref) {
+    ref.watch(DataTasksOverdueRiverpodProvider.notifier).getTasksOverdue;
+  }
+
+  void addTasks(WidgetRef ref, task) {
+    ref.watch(DataTasksRiverpodProvider.notifier).addTask(task);
+  }
+
+  void deleteTasks(WidgetRef ref, task) {
+    ref.watch(DataTasksRiverpodProvider.notifier).deleteTask(task);
+  }
+
+  void updateIconChange(WidgetRef ref, task, iconChange) {
+    ref.watch(DataTasksRiverpodProvider.notifier).updateTask(task, iconChange);
+  }
+
+  void updateOverdueIconChange(WidgetRef ref, task, iconChange) {
+    ref.watch(DataTasksOverdueRiverpodProvider.notifier).updateOverdueTask(task, iconChange);
+  }
+
+  void updateUpcomingIconChange(WidgetRef ref, task, iconChange) {
+    ref.watch(DataTasksUpcomingRiverpodProvider.notifier).updateUpcomingTask(task, iconChange);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(DataTasksOverdueRiverpodProvider);
+    ref.watch(DataTasksUpcomingRiverpodProvider);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
@@ -37,14 +59,15 @@ class Upcoming extends ConsumerWidget {
             }),
       ),
       body: Container(
-        color: ColorSets.black,
+        constraints: BoxConstraints.expand(width: double.infinity, height: double.infinity),
+        color: Colors.black,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           verticalDirection: VerticalDirection.down,
           children: [
             Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding: const EdgeInsets.only(left: 18, top: 36, bottom: 10),
               child: Text(
                 'OVERDUE',
                 style: TextStyle(
@@ -55,19 +78,25 @@ class Upcoming extends ConsumerWidget {
             ),
             Container(
               constraints:
-                  BoxConstraints(maxWidth: double.infinity, maxHeight: 100),
-              color: ColorSets.black,
+              BoxConstraints(maxWidth: double.infinity, maxHeight: 220),
+              color: Colors.black,
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount: totalNoTimeTaskKey.length,
+                itemCount: ref.watch(DataTasksOverdueRiverpodProvider).length,
                 itemBuilder: (BuildContext context, int index) {
-                  ref.watch(Task_repository_RiverpodProvider).taskKey;
-                  ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, totalNoTimeTaskKey[index], '${totalProjectsTask[totalNoTimeTaskKey[index]]}');},
+                    onDismissed: (direction) {
+                      deleteTasks(
+                        ref,
+                        ref.watch(DataTasksRiverpodProvider)[index],
+                      );
+                      ref
+                          .watch(DataTasksRiverpodProvider.notifier)
+                          .getTasks;
+                    },
                     background: Container(
-                      color: Colors.grey.shade800,
+                      color: Colors.black,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -89,7 +118,7 @@ class Upcoming extends ConsumerWidget {
                           color: Colors.white,
                         ),
                         borderRadius:
-                            BorderRadius.circular(20.0), //<-- SEE HERE
+                        BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
                       elevation: 5,
                       color: ColorSets.black,
@@ -101,67 +130,92 @@ class Upcoming extends ConsumerWidget {
                           ListTile(
                             leading: InkWell(
                               child: Icon(
-                                  totalIconSearch[totalNoTimeTaskKey[index]],
+                                  ref.watch(DataTasksOverdueRiverpodProvider)[index].iconChange ==
+                                      0
+                                      ? Icons.circle_outlined
+                                      : Icons.check_circle,
                                   color: Colors.grey),
                               highlightColor: Colors.deepOrange,
                               radius: 10.0,
                               borderRadius: BorderRadius.circular(20.0),
                               onTap: () {
-                                changeCompletedIcon(ref,
-                                    '${totalInboxTask[totalNoTimeTaskKey[index]]}');
+                                updateOverdueIconChange(
+                                    ref,
+                                    ref.watch(
+                                        DataTasksOverdueRiverpodProvider)[index],
+                                    ref
+                                        .watch(DataTasksOverdueRiverpodProvider)[
+                                    index]
+                                        .iconChange);
+                                ref
+                                    .watch(
+                                    DataTasksOverdueRiverpodProvider.notifier).getTasksOverdue;
+                                ref
+                                    .watch(
+                                    DataTasksRiverpodProvider.notifier).getTasks;
+
+                                print(
+                                    'Инсдекс - кнопки задачи ${ref.watch(DataTasksOverdueRiverpodProvider)[index].iconChange}');
                               },
                             ),
                             title: Text(
-                              '${totalInboxTask[totalNoTimeTaskKey[index]]}',
+                              '${ref.watch(DataTasksOverdueRiverpodProvider)[index].textTask}',
                               style: TextStyle(color: ColorSets.white),
                             ),
                           ),
                           Row(
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 50, bottom: 15),
-                                child: Image.asset(
-                                    totalUpcomingTask[
-                                                totalNoTimeTaskKey[index]] !=
-                                            null
-                                        ? 'images/upcoming.png'
-                                        : 'images/time.png',
+                                padding: const EdgeInsets.only(
+                                    left: 50, bottom: 15),
+                                child: Image.asset(ref.watch(DataTasksOverdueRiverpodProvider)[index].date != '$date_now'.hashCode
+                                    && ref.watch(DataTasksOverdueRiverpodProvider)[index].date
+                                        != 987444055
+                                    ? 'images/upcoming.png'
+                                    : ref.watch(DataTasksOverdueRiverpodProvider)[index].date ==
+                                    '$date_now'.hashCode && ref.watch(DataTasksOverdueRiverpodProvider)[index].date !=
+                                    987444055
+                                    ? 'images/today.png'
+                                    : 'images/time.png',
                                     width: 20,
                                     height: 20),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 15),
-                                child: Text(
-                                  totalUpcomingTask[
-                                              totalNoTimeTaskKey[index]] !=
-                                          null
-                                      ? '  Upcoming'
-                                      : '  no time',
+                                child: Text(ref.watch(DataTasksOverdueRiverpodProvider)[index].date != '$date_now'.hashCode
+                                    && ref.watch(DataTasksOverdueRiverpodProvider)[index].date
+                                        != 987444055
+                                    ? '  Upcoming'
+                                    : ref.watch(DataTasksOverdueRiverpodProvider)[index].date ==
+                                    '$date_now'.hashCode && ref.watch(DataTasksOverdueRiverpodProvider)[index].date !=
+                                    987444055
+                                    ? '  Today'
+                                    : '  No time',
                                   style: TextStyle(
-                                    color: ColorSets.grey_text,
+                                    color: ColorSets.white,
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, bottom: 15),
-                                child: Icon(
-                                    totalIconTask[totalNoTimeTaskKey[index]],
-                                    color: totalColorsTask[
-                                        totalNoTimeTaskKey[index]],
+                                padding: const EdgeInsets.only(
+                                    left: 20, bottom: 15),
+                                child: Icon(Icons.circle,
+                                    color: Color(
+                                      int.parse(
+                                          "${ref.watch(DataTasksOverdueRiverpodProvider)[index].color!.replaceAll('Color(', '').replaceAll(')', '')}"),
+                                    ),
                                     size: 20),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 15),
                                 child: Text(
-                                  '  ${totalProjectsTask[totalNoTimeTaskKey[index]]}',
+                                  '  ${ref.watch(DataTasksOverdueRiverpodProvider)[index].project}',
                                   style: TextStyle(
                                       color:
-                                          '${ref.watch(Inbox_RiverpodProvider).text}' !=
-                                                  null
-                                              ? ColorSets.white
-                                              : ColorSets.grey_text),
+                                      '${ref.watch(DataTasksOverdueRiverpodProvider)[index].project}' !=
+                                          null
+                                          ? ColorSets.white
+                                          : ColorSets.grey_text),
                                 ),
                               ),
                             ],
@@ -177,7 +231,7 @@ class Upcoming extends ConsumerWidget {
               color: Colors.grey,
             ),
             Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding: const EdgeInsets.only(left: 18, top: 10, bottom: 10),
               child: Text(
                 'UPCOMING',
                 style: TextStyle(
@@ -188,19 +242,25 @@ class Upcoming extends ConsumerWidget {
             ),
             Container(
               constraints:
-                  BoxConstraints(maxWidth: double.infinity, maxHeight: 300),
-              color: ColorSets.black,
+              BoxConstraints(maxWidth: double.infinity, maxHeight: 290),
+              color: Colors.black,
               child: ListView.builder(
                 controller: _scrollController,
-                itemCount: totalUpcomingTaskKey.length,
+                itemCount: ref.watch(DataTasksUpcomingRiverpodProvider).length,
                 itemBuilder: (BuildContext context, int index) {
-                  ref.watch(Task_repository_RiverpodProvider).taskKey;
-                  ref.watch(Task_repository_RiverpodProvider).iconChange;
                   return Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (direction) {deletTask(ref, totalUpcomingTaskKey[index], '${totalProjectsTask[totalUpcomingTaskKey[index]]}');},
+                    onDismissed: (direction) {
+                      deleteTasks(
+                        ref,
+                        ref.watch(DataTasksRiverpodProvider)[index],
+                      );
+                      ref
+                          .watch(DataTasksRiverpodProvider.notifier)
+                          .getTasks;
+                    },
                     background: Container(
-                      color: Colors.grey.shade800,
+                      color: Colors.black,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -222,7 +282,7 @@ class Upcoming extends ConsumerWidget {
                           color: Colors.white,
                         ),
                         borderRadius:
-                            BorderRadius.circular(20.0), //<-- SEE HERE
+                        BorderRadius.circular(20.0), //<-- SEE HERE
                       ),
                       elevation: 5,
                       color: ColorSets.black,
@@ -234,67 +294,91 @@ class Upcoming extends ConsumerWidget {
                           ListTile(
                             leading: InkWell(
                               child: Icon(
-                                  totalIconSearch[totalUpcomingTaskKey[index]],
+                                  ref.watch(DataTasksUpcomingRiverpodProvider)[index].iconChange ==
+                                      0
+                                      ? Icons.circle_outlined
+                                      : Icons.check_circle,
                                   color: Colors.grey),
                               highlightColor: Colors.deepOrange,
-                              radius: 40.0,
+                              radius: 10.0,
                               borderRadius: BorderRadius.circular(20.0),
                               onTap: () {
-                                changeCompletedIcon(ref,
-                                    '${totalUpcomingTask[totalUpcomingTaskKey[index]]}');
+                                updateIconChange(
+                                    ref,
+                                    ref.watch(
+                                        DataTasksUpcomingRiverpodProvider)[index],
+                                    ref
+                                        .watch(DataTasksUpcomingRiverpodProvider)[
+                                    index]
+                                        .iconChange);
+                                ref
+                                    .watch(
+                                    DataTasksOverdueRiverpodProvider.notifier).getTasksOverdue;
+                                ref
+                                    .watch(
+                                    DataTasksUpcomingRiverpodProvider.notifier).getTasksUpcoming;
+                                print(
+                                    'Инсдекс - кнопки задачи ${ref.watch(DataTasksRiverpodProvider)[index].iconChange}');
                               },
                             ),
                             title: Text(
-                              '${totalUpcomingTask[totalUpcomingTaskKey[index]]}',
+                              '${ref.watch(DataTasksUpcomingRiverpodProvider)[index].textTask}',
                               style: TextStyle(color: ColorSets.white),
                             ),
                           ),
                           Row(
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 50, bottom: 15),
-                                child: Image.asset(
-                                    totalUpcomingTask[
-                                                totalUpcomingTaskKey[index]] !=
-                                            null
-                                        ? 'images/upcoming.png'
-                                        : 'images/time.png',
+                                padding: const EdgeInsets.only(
+                                    left: 50, bottom: 15),
+                                child: Image.asset(ref.watch(DataTasksUpcomingRiverpodProvider)[index].date != '$date_now'.hashCode
+                                    && ref.watch(DataTasksUpcomingRiverpodProvider)[index].date
+                                        != 987444055
+                                    ? 'images/upcoming.png'
+                                    : ref.watch(DataTasksUpcomingRiverpodProvider)[index].date ==
+                                    '$date_now'.hashCode && ref.watch(DataTasksUpcomingRiverpodProvider)[index].date !=
+                                    987444055
+                                    ? 'images/today.png'
+                                    : 'images/time.png',
                                     width: 20,
                                     height: 20),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 15),
-                                child: Text(
-                                  totalUpcomingTask[
-                                              totalUpcomingTaskKey[index]] !=
-                                          null
-                                      ? '  Upcoming'
-                                      : '  no time',
+                                child: Text(ref.watch(DataTasksUpcomingRiverpodProvider)[index].date != '$date_now'.hashCode
+                                    && ref.watch(DataTasksUpcomingRiverpodProvider)[index].date
+                                        != 987444055
+                                    ? '  Upcoming'
+                                    : ref.watch(DataTasksUpcomingRiverpodProvider)[index].date ==
+                                    '$date_now'.hashCode && ref.watch(DataTasksUpcomingRiverpodProvider)[index].date !=
+                                    987444055
+                                    ? '  Today'
+                                    : '  No time',
                                   style: TextStyle(
-                                    color: ColorSets.grey_text,
+                                    color: ColorSets.white,
                                   ),
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 20, bottom: 15),
-                                child: Icon(
-                                    totalIconTask[totalUpcomingTaskKey[index]],
-                                    color: totalColorsTask[
-                                        totalUpcomingTaskKey[index]],
+                                padding: const EdgeInsets.only(
+                                    left: 20, bottom: 15),
+                                child: Icon(Icons.circle,
+                                    color: Color(
+                                      int.parse(
+                                          "${ref.watch(DataTasksUpcomingRiverpodProvider)[index].color!.replaceAll('Color(', '').replaceAll(')', '')}"),
+                                    ),
                                     size: 20),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 15),
                                 child: Text(
-                                  '  ${totalProjectsTask[totalUpcomingTaskKey[index]]}',
+                                  '  ${ref.watch(DataTasksUpcomingRiverpodProvider)[index].project}',
                                   style: TextStyle(
                                       color:
-                                          '${ref.watch(Inbox_RiverpodProvider).text}' !=
-                                                  null
-                                              ? ColorSets.white
-                                              : ColorSets.grey_text),
+                                      '${ref.watch(DataTasksUpcomingRiverpodProvider)[index].project}' !=
+                                          null
+                                          ? ColorSets.white
+                                          : ColorSets.grey_text),
                                 ),
                               ),
                             ],
@@ -312,7 +396,6 @@ class Upcoming extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/add');
-          print('$totalUpcomingTaskKey');
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

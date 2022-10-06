@@ -1,23 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo/add_new_todo/add_provider.dart';
+import 'package:todo/add_new_todo/data_task/task_overdue_repository.dart';
+import 'package:todo/add_new_todo/data_task/task_repository.dart';
+import 'package:todo/add_new_todo/inbox_provider.dart';
 import '../colors.dart';
-import '../projects/add_projects_provider.dart';
-import '../tasks_repository/total_tasks_provider.dart';
-import 'add_provider.dart';
-import 'inbox_provider.dart';
 
 DateTime now = new DateTime.now();
 DateTime date_now = new DateTime(now.year, now.month, now.day);
 
-class Add_new_todo extends ConsumerWidget {
-  Add_new_todo({Key? key}) : super(key: key);
-
-  // final ScrollController _scrollController = ScrollController();
-
-  void validateTextField(WidgetRef ref, text) {
-    ref.read(Add_new_RiverpodProvider.notifier).validateTextField(text);
-  }
+class AddNewTodo extends ConsumerWidget {
+  AddNewTodo({Key? key}) : super(key: key);
 
   Future<void> selectDate(WidgetRef ref, context) async {
     final DateTime? picked = await showDatePicker(
@@ -25,17 +19,37 @@ class Add_new_todo extends ConsumerWidget {
         initialDate: date_now,
         firstDate: DateTime(2022, 8),
         lastDate: DateTime(2101));
-    ref.read(Add_new_RiverpodProvider.notifier).setDate(picked);
+    ref.read(AddNewRiverpodProvider.notifier).setDate(picked);
   }
 
-  void show_inbox(WidgetRef ref, context) {
-    ref.read(Inbox_RiverpodProvider.notifier).show_inbox(context);
+  void addTextField(WidgetRef ref, text) {
+    ref.read(AddNewRiverpodProvider.notifier).addTextField(text);
   }
 
-  void add_task(WidgetRef ref, text_task,  date, projects, color, icon) {
+  void setDate(WidgetRef ref, date) {
+    ref.read(AddNewRiverpodProvider.notifier).setDate(date);
+  }
+
+  void showInbox(context, WidgetRef ref) {
+    ref.read(InboxRiverpodProvider.notifier).showInbox(context, ref);
+  }
+
+  void addTaskState(WidgetRef ref, textTask, date, project) {
     ref
-        .read(Task_repository_RiverpodProvider.notifier)
-        .totalTasks(text_task, date, projects, color, icon);
+        .read(AddNewRiverpodProvider.notifier)
+        .addTaskState(textTask, date, project);
+  }
+
+  void getTasks(WidgetRef ref) {
+    ref.watch(DataTasksRiverpodProvider.notifier).getTasks;
+  }
+
+  void addTasks(WidgetRef ref, task) {
+    ref.watch(DataTasksRiverpodProvider.notifier).addTask(task);
+  }
+
+  void deleteTasks(WidgetRef ref, task) {
+    ref.watch(DataTasksRiverpodProvider.notifier).deleteTask(task);
   }
 
   @override
@@ -82,7 +96,7 @@ class Add_new_todo extends ConsumerWidget {
                     minLines: 11,
                     keyboardType: TextInputType.text,
                     onChanged: (text) {
-                      validateTextField(ref, text);
+                      addTextField(ref, text);
                     },
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -109,18 +123,18 @@ class Add_new_todo extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                                ref.watch(Add_new_RiverpodProvider).date !=
+                                ref.watch(AddNewRiverpodProvider).date !=
                                             date_now &&
                                         ref
-                                                .watch(Add_new_RiverpodProvider)
+                                                .watch(AddNewRiverpodProvider)
                                                 .date !=
                                             null
                                     ? 'images/upcoming.png'
-                                    : ref.watch(Add_new_RiverpodProvider).date ==
+                                    : ref.watch(AddNewRiverpodProvider).date ==
                                                 date_now &&
                                             ref
                                                     .watch(
-                                                        Add_new_RiverpodProvider)
+                                                        AddNewRiverpodProvider)
                                                     .date !=
                                                 null
                                         ? 'images/today.png'
@@ -128,13 +142,24 @@ class Add_new_todo extends ConsumerWidget {
                                 width: 20,
                                 height: 20),
                             Text(
-                              ('${ref.watch(Add_new_RiverpodProvider).timing}'),
+                              ref.watch(AddNewRiverpodProvider).date !=
+                                          date_now &&
+                                      ref.watch(AddNewRiverpodProvider).date !=
+                                          null
+                                  ? '  Upcoming'
+                                  : ref.watch(AddNewRiverpodProvider).date ==
+                                              date_now &&
+                                          ref
+                                                  .watch(AddNewRiverpodProvider)
+                                                  .date !=
+                                              null
+                                      ? '  Today'
+                                      : '  No time',
                               style: TextStyle(
-                                color:
-                                    ref.watch(Add_new_RiverpodProvider).date !=
-                                            null
-                                        ? ColorSets.white
-                                        : ColorSets.grey_text,
+                                color: ref.watch(AddNewRiverpodProvider).date !=
+                                        null
+                                    ? ColorSets.white
+                                    : ColorSets.grey_text,
                               ),
                             ),
                           ],
@@ -142,7 +167,7 @@ class Add_new_todo extends ConsumerWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => show_inbox(ref, context),
+                      onTap: () => showInbox(context, ref),
                       child: Container(
                         decoration: BoxDecoration(
                           color: ColorSets.gray,
@@ -154,19 +179,14 @@ class Add_new_todo extends ConsumerWidget {
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                                ref.watch(Inbox_RiverpodProvider).icon,
-                                color: ref.watch(Inbox_RiverpodProvider).color,
-                                size: 20
-                              ),
-                            Text(
-                              '  ${ref.watch(Inbox_RiverpodProvider).text}',
+                            Icon(Icons.circle_rounded, size: 20, color: ref.watch(AddNewRiverpodProvider).color,),
+                            Text(ref.watch(AddNewRiverpodProvider).project == null ? ' Inbox' : '  ${ref.watch(AddNewRiverpodProvider).project}',
                               style: TextStyle(
-                                  color:
-                                      {ref.watch(Inbox_RiverpodProvider).color} !=
-                                              Colors.yellow
-                                          ? ColorSets.white
-                                          : ColorSets.grey_text),
+                                color: ref.watch(AddNewRiverpodProvider).project !=
+                                    null
+                                    ? ColorSets.white
+                                    : ColorSets.grey_text,
+                              ),
                             ),
                           ],
                         ),
@@ -184,27 +204,18 @@ class Add_new_todo extends ConsumerWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6)),
                 ),
-                onPressed: ref.watch(Add_new_RiverpodProvider).hasText == true && ref.watch(AddProjects_RiverpodProvider).text != null
+                onPressed: ref.watch(AddNewRiverpodProvider).textTask != null &&
+                        ref.watch(AddNewRiverpodProvider).project != null
                     ? () {
-                    add_task(
-                      ref,
-                      ref
-                          .watch(Add_new_RiverpodProvider)
-                          .text,
-                      ref
-                          .watch(Add_new_RiverpodProvider)
-                          .date,
-                      ref
-                          .watch(Inbox_RiverpodProvider)
-                          .text,
-                      ref
-                          .watch(Inbox_RiverpodProvider)
-                          .color,
-                      ref
-                          .watch(Inbox_RiverpodProvider)
-                          .icon,);
-                    Navigator.pushNamed(context, '/home_add');
-                  }
+                        addTaskState(
+                            ref,
+                            ref.watch(AddNewRiverpodProvider).textTask,
+                            ref.watch(AddNewRiverpodProvider).date,
+                            ref.watch(AddNewRiverpodProvider).project);
+                        addTasks(ref, ref.watch(AddNewRiverpodProvider).taskDto);
+                        ref.watch(DataTasksRiverpodProvider.notifier).getTasks;
+                        Navigator.pushNamed(context, '/home');
+                      }
                     : null,
                 child: Text('ADD TODO'),
               ),

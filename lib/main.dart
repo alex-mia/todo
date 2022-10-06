@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:todo/add_new_todo/add_new_task.dart';
+import 'package:todo/home.dart';
+import 'package:todo/inbox/inbox.dart';
 import 'package:todo/projects/addNewProjects.dart';
 import 'package:todo/projects/filterProjects.dart';
 import 'package:todo/projects/projects.dart';
-import 'package:todo/search/searchTasks.dart';
-
-import 'package:todo/startScreen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todo/tasks_repository/home.dart';
-import 'package:todo/tasks_repository/home_add.dart';
+import 'package:todo/search/searchTasks.dart';
+import 'package:todo/startScreen.dart';
 import 'package:todo/today/today.dart';
 import 'package:todo/upcoming/upcoming.dart';
-
-import 'add_new_todo/add_new_todo.dart';
-import 'inbox/inbox.dart';
-
 
 void main()  {
   runApp(ProviderScope(child: MyApp()));
@@ -32,14 +28,14 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/':(BuildContext context) => StartScreen(),
-          '/add':(BuildContext context) => Add_new_todo(),
+          '/add_projects':(BuildContext context) => AddNewProjects(),
+          '/projects':(BuildContext context) => Projects (),
+          '/add':(BuildContext context) => AddNewTodo(),
           '/home': (BuildContext context) => Home(),
-          '/home_add': (BuildContext context) => Home_add(),
+          // '/home_add': (BuildContext context) => HomeAdd(),
           '/inbox': (BuildContext context) => Inbox(),
           '/today': (BuildContext context) => Today(),
           '/upcoming': (BuildContext context) => Upcoming(),
-          '/projects':(BuildContext context) => Projects (),
-          '/add_projects':(BuildContext context) => AddNewProjects(),
           '/filters_projects':(BuildContext context) => FilterProjects(),
           '/search':(BuildContext context) => SearchTask(),
         }
