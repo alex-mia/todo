@@ -159,25 +159,23 @@ class SearchTask extends ConsumerWidget {
                                                                     .watch(DataTasksSearchRiverpodProvider)[
                                                                         index]
                                                                     .date !=
-                                                                '$date_now'
-                                                                    .hashCode &&
+                                                                date_now.day &&
                                                             ref
                                                                     .watch(DataTasksSearchRiverpodProvider)[
                                                                         index]
                                                                     .date !=
-                                                                987444055
+                                                                0
                                                         ? 'images/upcoming.png'
                                                         : ref
                                                                         .watch(DataTasksSearchRiverpodProvider)[
                                                                             index]
                                                                         .date ==
-                                                                    '$date_now'
-                                                                        .hashCode &&
+                                                                    date_now.day &&
                                                                 ref
                                                                         .watch(DataTasksSearchRiverpodProvider)[
                                                                             index]
                                                                         .date !=
-                                                                    987444055
+                                                                    0
                                                             ? 'images/today.png'
                                                             : 'images/time.png',
                                                     width: 20,

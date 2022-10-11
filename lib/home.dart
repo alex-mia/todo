@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:todo/add_new_todo/add_new_task.dart';
 import 'package:todo/add_new_todo/data_task/task_overdue_repository.dart';
 import 'package:todo/add_new_todo/data_task/task_repository.dart';
 import 'package:todo/add_new_todo/data_task/task_today_repository.dart';
@@ -19,9 +18,6 @@ class Home extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(DataTasksOverdueRiverpodProvider);
-    ref.watch(DataTasksTodayRiverpodProvider);
-    ref.watch(DataTasksFilterProjectRiverpodProvider);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -231,7 +227,7 @@ class Home extends ConsumerWidget {
                         style: TextStyle(color: ColorSets.white),
                       ),
                       trailing: Text(
-                        ('${ref.watch(DataTasksTodayRiverpodProvider).length}'),
+                        ('${ref.read(DataTasksTodayRiverpodProvider).length}'),
                         style: TextStyle(color: ColorSets.white),
                       ),
                     ),
@@ -290,7 +286,7 @@ class Home extends ConsumerWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.separated(
                       controller: _scrollController,
-                      itemCount: ref.watch(DataProjectsRiverpodProvider).length,
+                      itemCount: ref.read(DataProjectsRiverpodProvider).length,
                       separatorBuilder: (BuildContext context, int index) => Divider(
                         height: 3,
                         color: Colors.white,

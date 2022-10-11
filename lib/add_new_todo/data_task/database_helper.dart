@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:todo/add_new_todo/add_new_task.dart';
 import 'package:todo/add_new_todo/data_task/task.dart';
 import 'package:todo/projects/data_project/project.dart';
+import 'package:todo/variables.dart';
 
 
 const dbVersion = 1;
@@ -48,17 +49,19 @@ class DatabaseHelper {
   Future<List<Map<String, Object?>>> getTasksOverdue() async {
     final db = await instance._database;
     print('${['{$date_now}'.hashCode]}');
-    return db.query( 'tasks', where: 'date=?', whereArgs: [987444055] );
+    return db.query( 'tasks', where: 'date=?', whereArgs: [0] );
   }
 
   Future<List<Map<String, Object?>>> getTasksToday() async {
     final db = await instance._database;
-    return db.query( 'tasks', where: 'date=?', whereArgs: [382450020] );
+    return db.query( 'tasks', where: 'date=?', whereArgs: [date_now.day] );
   }
 
   Future<List<Map<String, Object?>>> getTasksUpcoming() async {
     final db = await instance._database;
-    return db.query( 'tasks', where: 'date=?', whereArgs: [328447863] );
+    print('${date_now.day}');
+    return db.query('tasks',
+    where: 'date>?', whereArgs: [date_now.day]);
   }
 
   Future<List<Map<String, Object?>>> getTasksSearch(textTask) async {

@@ -21,7 +21,7 @@ class AddProjectsProvider extends StateNotifier<Project> {
   }
 
   void addProjects(String text, Color color, IconData icon) {
-    ProjectDto project = ProjectDto(id: null, text: text, color: color.toString(), icon: icon.toString(), counter: 0);
+    ProjectDto project = ProjectDto(id: null, text: text, color: color.toString(), icon: icon.toString(), counter: 1);
     state = Project(text, color, icon, project);
   }
 }

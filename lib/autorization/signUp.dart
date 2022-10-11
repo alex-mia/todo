@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:todo/add_new_todo/data_task/task_overdue_repository.dart';
+import 'package:todo/add_new_todo/data_task/task_today_repository.dart';
+import 'package:todo/add_new_todo/data_task/task_upcoming_repository.dart';
 import 'package:todo/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo/autorization/email_provider.dart';
 import 'package:todo/autorization/password_provider.dart';
 import 'package:todo/home.dart';
+import 'package:todo/projects/data_project/project_repository.dart';
+import 'package:todo/projects/data_project/task_projects_filter_repository.dart';
+
+import '../add_new_todo/data_task/task_repository.dart';
 
 
 
@@ -159,7 +166,14 @@ class SignUp extends ConsumerWidget {
                         onPressed: '${ref.watch(PasswordRiverpodProvider)}' == 'OK' && '${ref.watch(EmailRiverpodProvider)}' == 'OK' ? (){Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Home()));} : null,
+                                builder: (context) => Home()));
+                        ref.watch(DataProjectsRiverpodProvider.notifier).getProjects;
+                        ref.read(DataTasksRiverpodProvider.notifier).getTasks;
+                        ref.watch(DataTasksOverdueRiverpodProvider.notifier).getTasksOverdue;
+                        ref.watch(DataTasksTodayRiverpodProvider.notifier).getTasksToday;
+                        ref.watch(DataTasksUpcomingRiverpodProvider.notifier).getTasksUpcoming;
+                        ref.watch(DataTasksFilterProjectRiverpodProvider.notifier).getTasksFilterProject;
+                        } : null,
                         child: Text('SIGN UP'),
                       ),
                     ),

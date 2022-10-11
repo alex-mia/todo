@@ -23,7 +23,24 @@ class AddNewProvider extends StateNotifier<StateTasks> {
   }
 
   void addTaskState(String textTask, DateTime? date, String project,) {
-    TaskDto task = TaskDto(id: null, iconChange: state.iconChange.hashCode, textTask: textTask, date: date.toString().hashCode, color: state.color.toString(), project: project,);
-    state =  StateTasks(state.iconChange, textTask, date, state.color, project, task);
+    if (date == null) {;
+      TaskDto task = TaskDto(id: null,
+        iconChange: state.iconChange.hashCode,
+        textTask: textTask,
+        date: 0,
+        color: state.color.toString(),
+        project: project,);
+      state = StateTasks(
+          state.iconChange, textTask, date, state.color, project, task);
+    } else {
+      TaskDto task = TaskDto(id: null,
+        iconChange: state.iconChange.hashCode,
+        textTask: textTask,
+        date: date.day,
+        color: state.color.toString(),
+        project: project,);
+      state = StateTasks(
+          state.iconChange, textTask, date, state.color, project, task);
+    }
   }
 }

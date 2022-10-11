@@ -164,11 +164,11 @@ class Inbox extends ConsumerWidget {
                                     left: 50, bottom: 15),
                                 child: Image.asset(ref.watch(DataTasksOverdueRiverpodProvider)[index].date != '$date_now'.hashCode
                                     && ref.watch(DataTasksOverdueRiverpodProvider)[index].date
-                                        != 987444055
+                                        != 0
                                         ? 'images/upcoming.png'
                                         : ref.watch(DataTasksOverdueRiverpodProvider)[index].date ==
                                                     '$date_now'.hashCode && ref.watch(DataTasksOverdueRiverpodProvider)[index].date !=
-                                    987444055
+                                    date_now.day
                                             ? 'images/today.png'
                                             : 'images/time.png',
                                     width: 20,
@@ -178,11 +178,11 @@ class Inbox extends ConsumerWidget {
                                 padding: const EdgeInsets.only(bottom: 15),
                                 child: Text(ref.watch(DataTasksOverdueRiverpodProvider)[index].date != '$date_now'.hashCode
                                     && ref.watch(DataTasksOverdueRiverpodProvider)[index].date
-                                        != 987444055
+                                        != 0
                                     ? '  Upcoming'
                                     : ref.watch(DataTasksOverdueRiverpodProvider)[index].date ==
                                     '$date_now'.hashCode && ref.watch(DataTasksOverdueRiverpodProvider)[index].date !=
-                                    987444055
+                                    date_now.day
                                     ? '  Today'
                                     : '  No time',
                                   style: TextStyle(
@@ -325,13 +325,10 @@ class Inbox extends ConsumerWidget {
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 50, bottom: 15),
-                                child: Image.asset(ref.watch(DataTasksRiverpodProvider)[index].date != '$date_now'.hashCode
-                                    && ref.watch(DataTasksRiverpodProvider)[index].date
-                                        != 987444055
+                                child: Image.asset(ref.watch(DataTasksRiverpodProvider)[index].date! > date_now.day
                                     ? 'images/upcoming.png'
                                     : ref.watch(DataTasksRiverpodProvider)[index].date ==
-                                    '$date_now'.hashCode && ref.watch(DataTasksRiverpodProvider)[index].date !=
-                                    987444055
+                                    date_now.day
                                     ? 'images/today.png'
                                     : 'images/time.png',
                                     width: 20,

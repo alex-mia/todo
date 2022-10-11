@@ -168,13 +168,13 @@ class Upcoming extends ConsumerWidget {
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 50, bottom: 15),
-                                child: Image.asset(ref.watch(DataTasksOverdueRiverpodProvider)[index].date != '$date_now'.hashCode
+                                child: Image.asset(ref.watch(DataTasksOverdueRiverpodProvider)[index].date != date_now.day
                                     && ref.watch(DataTasksOverdueRiverpodProvider)[index].date
-                                        != 987444055
+                                        != 0
                                     ? 'images/upcoming.png'
                                     : ref.watch(DataTasksOverdueRiverpodProvider)[index].date ==
-                                    '$date_now'.hashCode && ref.watch(DataTasksOverdueRiverpodProvider)[index].date !=
-                                    987444055
+                                    date_now.day && ref.watch(DataTasksOverdueRiverpodProvider)[index].date !=
+                                    0
                                     ? 'images/today.png'
                                     : 'images/time.png',
                                     width: 20,
@@ -182,13 +182,13 @@ class Upcoming extends ConsumerWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 15),
-                                child: Text(ref.watch(DataTasksOverdueRiverpodProvider)[index].date != '$date_now'.hashCode
+                                child: Text(ref.watch(DataTasksOverdueRiverpodProvider)[index].date != date_now.day
                                     && ref.watch(DataTasksOverdueRiverpodProvider)[index].date
-                                        != 987444055
+                                        != 0
                                     ? '  Upcoming'
                                     : ref.watch(DataTasksOverdueRiverpodProvider)[index].date ==
-                                    '$date_now'.hashCode && ref.watch(DataTasksOverdueRiverpodProvider)[index].date !=
-                                    987444055
+                                    date_now.day && ref.watch(DataTasksOverdueRiverpodProvider)[index].date !=
+                                    0
                                     ? '  Today'
                                     : '  No time',
                                   style: TextStyle(
@@ -331,13 +331,10 @@ class Upcoming extends ConsumerWidget {
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 50, bottom: 15),
-                                child: Image.asset(ref.watch(DataTasksUpcomingRiverpodProvider)[index].date != '$date_now'.hashCode
-                                    && ref.watch(DataTasksUpcomingRiverpodProvider)[index].date
-                                        != 987444055
+                                child: Image.asset(ref.watch(DataTasksRiverpodProvider)[index].date != date_now.day
                                     ? 'images/upcoming.png'
-                                    : ref.watch(DataTasksUpcomingRiverpodProvider)[index].date ==
-                                    '$date_now'.hashCode && ref.watch(DataTasksUpcomingRiverpodProvider)[index].date !=
-                                    987444055
+                                    : ref.watch(DataTasksRiverpodProvider)[index].date ==
+                                    date_now.day
                                     ? 'images/today.png'
                                     : 'images/time.png',
                                     width: 20,
@@ -345,13 +342,13 @@ class Upcoming extends ConsumerWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 15),
-                                child: Text(ref.watch(DataTasksUpcomingRiverpodProvider)[index].date != '$date_now'.hashCode
+                                child: Text(ref.watch(DataTasksUpcomingRiverpodProvider)[index].date != date_now.day
                                     && ref.watch(DataTasksUpcomingRiverpodProvider)[index].date
-                                        != 987444055
+                                        != 0
                                     ? '  Upcoming'
                                     : ref.watch(DataTasksUpcomingRiverpodProvider)[index].date ==
-                                    '$date_now'.hashCode && ref.watch(DataTasksUpcomingRiverpodProvider)[index].date !=
-                                    987444055
+                                    date_now.day && ref.watch(DataTasksUpcomingRiverpodProvider)[index].date !=
+                                    0
                                     ? '  Today'
                                     : '  No time',
                                   style: TextStyle(
