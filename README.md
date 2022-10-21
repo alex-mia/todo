@@ -1,16 +1,14 @@
-# todo
+The 'Weather' app.
 
-Flutter project.
+defining geo-data;
+obtaining temperature;
+getting other weather data;
+search by city name;
+global map search;
 
-## Getting Started
+Flutter / Riverpod
 
-Application 'TO_DO'
-
-- task adding
-- task editing
-- set date and time for the task
-
-developer link: https://www.linkedin.com/in/mukalov/
+Developer link: https://www.linkedin.com/in/mukalov/
 
 
 
